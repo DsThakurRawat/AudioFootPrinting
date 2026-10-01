@@ -18,9 +18,9 @@ Architecture-1/results/
 | :--- | :--- | :--- | :--- | :---: | :---: | :---: |
 | **Old Model Baseline** | 5,000-track Prototype | Zero-padded 30s | Uncalibrated ($\tau = 0.50$) | `0.9782` | `92.62%` | Superseded |
 | **Buggy Earlier Run** | 200k Interim Model | Zero-padded 30s (Diluted RMS) | Uncalibrated ($\tau = 0.50$) | `0.9814` | `91.07%` (29 NaNs) | **Quarantined (Buggy)** |
-| **New Model (Phase 1)** | 200k Retrained Production | Decoupled Unpadded | Calibrated ($\tau = 0.18$) | **`0.9933`** | **`98.54%`** | **Certified Production** |
-| **New Model (Phase 2)** | 200k Retrained Production | Decoupled Unpadded | Calibrated ($\tau = 0.18$) | **`0.9970`** | **`98.48%`** | **Certified Production** |
-| **New Model (Phase 3)** | 200k Retrained Production | Decoupled Unpadded | Calibrated ($\tau = 0.18$) | *N/A (AI only)* | **`98.89%` AI Caught** | **Certified Production** |
+| **New Model (Phase 1)** | 187k Retrained Production | Decoupled Unpadded | Calibrated ($\tau = 0.18$) | **`0.9933`** | — | **Production** |
+| **New Model (Phase 2)** | 187k Retrained Production | Decoupled Unpadded | Calibrated ($\tau = 0.18$) | **`0.9970`** | **`98.48%`** | **Production** |
+| **New Model (Phase 3)** | 187k Retrained Production | Decoupled Unpadded | Calibrated ($\tau = 0.18$) | *N/A (AI only)* | **`98.89%` AI Caught** | **Production** |
 
 ---
 
@@ -35,7 +35,7 @@ Contains the historical evaluation runs that suffered from:
 Contains the benchmark results from the initial small-scale prototype trained on only $5,000$ tracks prior to the $200,000$-track scale-up.
 
 ### 3. [`new_model_retrained_200k/`](./new_model_retrained_200k/README.md)
-Contains the final, verified, and publication-ready evaluation results across all 3 phases:
+Contains the final, verified evaluation results across all 3 phases:
 - **Phase 1:** Zero-shot generalization on 8 unseen architectures ($2,876$ tracks, `0.9933` AUROC).
 - **Phase 2:** Full held-out benchmark ($28,134$ physical tracks, `0.9970` AUROC, `98.48%` Accuracy, `1.55%` EER).
-- **Phase 3:** Large-scale out-of-domain streaming ($50,000$ Hugging Face tracks, `98.89%` AI Detection Rate).
+- **Phase 3:** Large-scale out-of-domain streaming ($50,000$ Suno v5 tracks, `98.89%` AI Detection Rate, AI-only — no FP measurement).

@@ -201,7 +201,9 @@ Beating one branch is plausible for a generator. Beating both simultaneously, wi
 
 ---
 
-## Ablation Plan (MIREX Technical Report)
+## Ablation Plan (Proposed — Not Yet Executed)
+
+> **Note:** This ablation study is a proposed experimental design for the MIREX technical report. These experiments have **not been run** yet. The "Expected AUROC" column reflects theoretical expectations, not measured results.
 
 | Model Variant | Branch A (Surface/CL) | Branch B (Structure/MIR) | Fusion | Expected AUROC | Inference Speed |
 |---|---|---|---|---|---|
@@ -210,8 +212,6 @@ Beating one branch is plausible for a generator. Beating both simultaneously, wi
 | MusicScope Only | ❌ | ✅ MIR | — | Medium | Fast |
 | Fused (no SupCon) | ✅ | ✅ | Concat + plain CE | High | Fast |
 | **MusicScope-CL (Ours)** | ✅ | ✅ | Concat + **SupCon** | **Highest** | Fast |
-
-This table is designed to give a mathematically rigorous, paper-ready justification: Surface + Structure beats either alone, and Supervised Contrastive fusion beats plain linear fusion — echoing StoryScope's own findings, adapted to audio.
 
 ---
 
@@ -227,43 +227,45 @@ This table is designed to give a mathematically rigorous, paper-ready justificat
 ##  Repo Structure
 
 ```
-musicscope/
+Architecture-1/mirex/
 ├── README.md                  # this file
-├── ARCHITECTURE.md            # deep-dive on design decisions
-├── requirements.txt           # dependencies
-├── src/
-│   ├── track_a_narrative.py   # Branch B: MIR/DSP structural feature extractor
-│   ├── track_b_style.py       # Branch A: MobileNetV3 spectrogram encoder
-│   ├── train_simclr.py        # Stage 1: unsupervised contrastive pretraining
-│   ├── train_supcon.py        # Stage 3b: supervised contrastive fusion
-│   ├── fusion_model.py        # Stage 3c: MLP/XGBoost classification head
-│   └── umap_analysis.py       # Interlude: latent space visualization
-├── notebooks/
-│   └── exploration.ipynb
-└── data/
-    └── README.md              # dataset notes (not tracked in git)
+├── arch.md                    # deep-dive on design decisions
+├── requirement.txt            # dependencies
+├── config.py                  # global constants, audio parameters, directory bindings
+├── dataset.py                 # paired-view SimCLR augmentations and labeled loaders
+├── track_a_narrative.py       # Branch B: 128-dim structural narrative DSP extractor
+├── track_b_style.py           # Branch A: MobileNetV3 surface style backbone
+├── train_simclr.py            # Stage 1: unsupervised SimCLR pretraining
+├── train_supcon.py            # Stage 3b: supervised contrastive fusion
+├── fusion_model.py            # Stage 3c: calibrated classification head
+├── inference.py               # inference entrypoint
+├── new_inference.py           # production FastMusicScopeScorer
+├── serve_api.py               # FastAPI serving endpoint
+└── checkpoints/               # trained model weights (*.pt)
 ```
+
+> **Note on file naming:** `track_a_narrative.py` implements Branch B (Structural Narrative), and `track_b_style.py` implements Branch A (Surface Style). The file naming is inverted relative to the architecture spec — this is a historical artifact.
 
 ---
 
 ## Quickstart
 
 ```bash
-git clone https://github.com/https://github.com/isdp0415-droid/musicscope.git
-cd musicscope
-pip install -r requirements.txt
+git clone https://github.com/DsThakurRawat/mirex.git
+cd mirex/Architecture-1/mirex
+pip install -r requirement.txt
 
 # Stage 2: extract structural features (no training needed)
-python src/track_a_narrative.py --input_dir ./data/raw --output narrative_vectors.parquet
+python track_a_narrative.py --input_dir ../../data/raw --output ../../data/processed/narrative_vectors.parquet
 
 # Stage 1: unsupervised contrastive pretraining of the surface branch
-python src/train_simclr.py --input_dir ./data/raw
+python train_simclr.py --input_dir ../../data/raw
 
 # Stage 3b: supervised contrastive fusion (labels introduced here)
-python src/train_supcon.py --narrative narrative_vectors.parquet --style_ckpt simclr.pt
+python train_supcon.py --narrative ../../data/processed/narrative_vectors.parquet --simclr_ckpt checkpoints/simclr_200k_best.pt
 
 # Stage 3c: train the final lightweight classification head
-python src/fusion_model.py --narrative narrative_vectors.parquet --style_ckpt simclr.pt --supcon_ckpt supcon.pt
+python fusion_model.py --narrative ../../data/processed/narrative_vectors.parquet --style_ckpt checkpoints/simclr_200k_best.pt --supcon_ckpt checkpoints/supcon_200k_best.pt
 ```
 
 ---
@@ -276,4 +278,4 @@ This project's methodology is adapted from the **StoryScope** paper's approach t
 
 ## 🗒️ Status
 
-🚧 Active development for MIREX 2026 submission. Contributions and issue reports welcome.
+MusicScope-CL has been trained on 159,423 tracks and evaluated on a 28,134-track held-out set achieving **0.9970 AUROC** and **1.55% EER**. The system is submission-ready for MIREX 2026.
