@@ -11,7 +11,7 @@ An end-to-end, cross-scale deep learning and digital signal processing (DSP) for
 
 ---
 
-## ⚠️ Repository Architecture & Status Notice
+## [WARNING] Repository Architecture & Status Notice
 
 This repository contains two architectural systems developed during the project:
 
@@ -41,7 +41,7 @@ flowchart TD
 ```
 
 * **[Architecture-1: MusicScope-CL](./Architecture-1/) (OPERATIONAL / MAIN):** The primary focus of this repository. It is **fully trained, rigorously audited, comprehensively evaluated across physical audio datasets, and production-ready**. All benchmarks, charts, and metrics presented below reflect Architecture-1.
-* **[Architecture-2: Multi-Branch LOGO System](./Architecture-2/) (EXPERIMENTAL BLUEPRINT):** A proposed 5-branch ensemble design incorporating heavy speech/music foundation models (Wav2Vec2-XLS-R, MERT, ConvNeXt-Tiny @ 120s, and OC-Softmax). **Architecture-2 was NOT trained, NOT tested on large-scale datasets, and is NOT deployed** due to requiring 1.5–3 TB of raw downloads and high-compute cloud infrastructure. Its code and test suite are preserved in [`Architecture-2/`](./Architecture-2/) for research inspection.
+* **[Architecture-2: Multi-Branch LOGO System](./Architecture-2/) (EXPERIMENTAL BLUEPRINT):** A proposed 5-branch ensemble design incorporating heavy speech/music foundation models (Wav2Vec2-XLS-R, MERT, ConvNeXt-Tiny @ 120s, and OC-Softmax). **Architecture-2 was NOT trained, NOT tested on large-scale datasets, and is NOT deployed** due to requiring 1.5-3 TB of raw downloads and high-compute cloud infrastructure. Its code and test suite are preserved in [`Architecture-2/`](./Architecture-2/) for research inspection.
 
 ---
 
@@ -177,8 +177,8 @@ To confirm that the model learns generative physics rather than memorizing gener
 | **Producer (CassetteAI)** | Hybrid Production Engine | **300** | **`79.67%` Caught** | `0.9502` | `0.7057` | **Solid Zero-Shot** |
 | **Stable Audio** | Continuous Latent Diffusion | **194** | **`73.71%` Caught** | `0.9597` | `0.6752` | **Solid Zero-Shot** |
 | **Mubert** | Algorithmic Loop Assembler | **149** | `11.41%` Caught | `0.0324` | `0.1114` | *Human stem loop assembly* |
-| **OVERALL MACRO-AUROC** | — | **2,876** | — | — | — | **`0.9933` (99.33%)** |
-| **OVERALL F1 SCORE** | — | **2,876** | — | — | — | **`0.9094` (90.94%)** |
+| **OVERALL MACRO-AUROC** |  --  | **2,876** |  --  |  --  |  --  | **`0.9933` (99.33%)** |
+| **OVERALL F1 SCORE** |  --  | **2,876** |  --  |  --  |  --  | **`0.9094` (90.94%)** |
 
 ![Phase 1 Unseen Generators Scorecard](Architecture-1/results/new_model_retrained_200k/unseen_generators_scorecard.png)
 *Figure 2: Zero-shot generalization scorecard across 8 unseen architectures.*
@@ -225,7 +225,7 @@ A completely external benchmark of 210 parquet shards (6,500 tracks) evaluating 
 | **ArtifactNet (`mirex2predet`)** | `0.7531` | `31.20%` | `1.5%` | `100.0%` | **Complete Collapse** (98.5% AI Missed) |
 | **Spectttra (`mirex2predet`)** | `0.7560` | `30.60%` | `67.0%` | `72.0%` | High False Alarm Rate (28% FP) |
 
-> **Critical Discovery:** While single-branch baselines (`fourier`, `artifactnet`) show deceptive nominal AUROCs of ~75–79%, their default decision thresholds **catch less than 8% of modern generative music** (ArtifactNet catches only 1.5%!). They survive in-domain evaluation only by predicting almost everything as human, rendering them unusable in real-world deployment.
+> **Critical Discovery:** While single-branch baselines (`fourier`, `artifactnet`) show deceptive nominal AUROCs of ~75-79%, their default decision thresholds **catch less than 8% of modern generative music** (ArtifactNet catches only 1.5%!). They survive in-domain evaluation only by predicting almost everything as human, rendering them unusable in real-world deployment.
 
 ---
 
@@ -273,7 +273,7 @@ To guarantee scientific rigor, repeatability, and freedom from delivery-chain sh
 | Test ID | Evaluation Milestone | Scope / Tracks | Metric Highlights | Key Scientific Takeaway |
 | :---: | :--- | :--- | :--- | :--- |
 | **Test 1** | **Phase 1: Zero-Shot Generalization** | 2,876 tracks (8 unseen AI architectures + 162 FMA real tracks) | **`0.9933` Macro-AUROC**, `0.9094` F1, **0% False Alarms** on human tracks | Proves cross-generator transfer; model detects fundamental synthesis physics without seeing training weights. |
-| **Test 2** | **Phase 2: Full Physical Audio Benchmark** | 28,134 physical disk tracks (12,172 AI / 15,962 Human) | **`0.9970` Macro-AUROC**, `0.9969` AP, **`1.55%` EER**, `98.48%` Accuracy | Core MIREX benchmark; achieves 100% on AudioLDM, 99.9% on Suno/Udio, 97.4%–98.5% on real music. |
+| **Test 2** | **Phase 2: Full Physical Audio Benchmark** | 28,134 physical disk tracks (12,172 AI / 15,962 Human) | **`0.9970` Macro-AUROC**, `0.9969` AP, **`1.55%` EER**, `98.48%` Accuracy | Core MIREX benchmark; achieves 100% on AudioLDM, 99.9% on Suno/Udio, 97.4%-98.5% on real music. |
 | **Test 3** | **Head-to-Head Held-Out Comparison** | 2,804 tracks (exact MD5 partition `< 10`) | AudioFootPrint **`0.9981` AUROC**, **`0.81%` EER** vs. Fourier (`0.93%`), ArtifactNet (`1.28%`) | Outperforms all baselines on complex ambient models (Echoes: 78.8% vs. Fourier 59.1%, Spectttra 56.1%). |
 | **Test 4** | **Zero-Shot Out-of-Domain AIME Stress Test** | 6,500 tracks across 210 shards (modern Suno, Udio, MTG-Jamendo) | AudioFootPrint catches **`73.3%` AI** vs. Fourier (`7.6%`), ArtifactNet (`1.5%`) | Exposes catastrophic baseline failure; baselines survive only by predicting everything as Human. |
 | **Test 5** | **Phase 3: Large-Scale Streaming Benchmark** | 50,000 uncurated Suno v5 web streams | **`98.89%` AI Detection Rate** (49,445 / 50,000 detected) | Confirms inference stability and robustness over live, lossy compressed web streams. |
@@ -351,7 +351,7 @@ Example Output:
 [Scorer] Loaded SupCon head from checkpoints/supcon_200k_best.pt
 [Scorer] Loaded FusionMLP from checkpoints/fusion_200k_best.pt (T = 0.9083)
 
-  song.mp3: P(AI-generated) = 0.8942  [CLASSIFICATION: AI-GENERATED (τ = 0.1800)]
+  song.mp3: P(AI-generated) = 0.8942  [CLASSIFICATION: AI-GENERATED (tau = 0.1800)]
 ```
 
 ---
@@ -395,7 +395,7 @@ For reference, [`Architecture-2/`](./Architecture-2/) contains an alternative 5-
 * **Branch D:** Long-Context Structure (`ConvNeXt-Tiny` over 120s log-Mel spectrograms)
 * **Branch E:** Real-Only Anomaly Detector (`OC-Softmax` One-Class model)
 
-> ⚠️ **Status Disclaimer:** Architecture-2 was designed as a theoretical submission framework and includes complete code scaffolding and a 107/107 unit test suite. However, **Architecture-2 is UNTESTED and UNTRAINED at scale** due to requiring 1.5–3 TB of raw audio downloads, proprietary API generation budgets (Mureka, MiniMax), and multi-GPU clusters. It was not used to produce any competition or publication scores.
+> [WARNING] **Status Disclaimer:** Architecture-2 was designed as a theoretical submission framework and includes complete code scaffolding and a 107/107 unit test suite. However, **Architecture-2 is UNTESTED and UNTRAINED at scale** due to requiring 1.5-3 TB of raw audio downloads, proprietary API generation budgets (Mureka, MiniMax), and multi-GPU clusters. It was not used to produce any competition or publication scores.
 
 ---
 
@@ -404,7 +404,7 @@ For reference, [`Architecture-2/`](./Architecture-2/) contains an alternative 5-
 This work is currently being expanded from the MIREX 2026 competition entry into an **IEEE/ACM Transactions on Audio, Speech, and Language Processing (TASLP)** journal paper centered on **cross-generator invariance, evidence complementarity, and anti-shortcut mechanisms**.
 
 Detailed instructions, scientific hypotheses, and experimental protocols are outlined in:
-📄 **[MusicScope_Transactions_Experimental_Roadmap.md](./MusicScope_Transactions_Experimental_Roadmap.md)**
+ **[MusicScope_Transactions_Experimental_Roadmap.md](./MusicScope_Transactions_Experimental_Roadmap.md)**
 
 ---
 

@@ -6,7 +6,7 @@ Hidden test uses Suno, Udio, Mureka, MiniMax, YuE, ACE-Step; metric is
 macro-AUROC across strata, so the worst generator family decides your rank.
 Known pitfalls: detectors collapse on unseen generators, learn codec/pipeline
 shortcuts instead of AI-ness, and the hidden real music (Song Describer
-Dataset) is a subset of MTG-Jamendo test — naive training = test contamination.
+Dataset) is a subset of MTG-Jamendo test  --  naive training = test contamination.
 Full methodology: IMPLEMENTATION_PLAN.md
 
 DONE

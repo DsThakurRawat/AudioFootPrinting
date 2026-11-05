@@ -44,7 +44,7 @@
 | **Human (FMA)** | Real Acoustic Recordings | 162 | 0 | **0% FP** |
 
 > [!NOTE]
-> **On Mubert's low detection rate:** Mubert does not synthesize audio via neural generation — it deterministically assembles pre-recorded, human-performed acoustic stem loops. Because its underlying stems exhibit genuine human acoustic physics, the model correctly identifies them as acoustically human-like. This is a ground-truth labeling ambiguity, not a model failure.
+> **On Mubert's low detection rate:** Mubert does not synthesize audio via neural generation  --  it deterministically assembles pre-recorded, human-performed acoustic stem loops. Because its underlying stems exhibit genuine human acoustic physics, the model correctly identifies them as acoustically human-like. This is a ground-truth labeling ambiguity, not a model failure.
 
 ### Phase 2: Complete Held-Out Disjoint Benchmark (28,134 Tracks)
 * **Evaluated Dataset:** $28,134$ physical audio tracks ($12,172$ AI vs. $15,962$ Human) strictly disjoint from the $159,423$ training tracks ($0$ track leakage, verified by path and content hash).
@@ -85,17 +85,17 @@
 
 ```
 Raw Audio (22.05 kHz)
-   ├── Branch A (30s Padded) -> Log-Mel (128x1292) -> StyleEncoder (Conv2D) -> z_surf (576-D)
-   └── Branch B (Raw Unpadded) -> Librosa/Scipy Extracts (128-D Moments)   -> x_narr (128-D)
-                                                                                  │
-Concat [z_surf (576-D) || x_narr (128-D)] = 704-D Fused Latent Representation ───┘
-   │
-   ▼
+   |--  Branch A (30s Padded) -> Log-Mel (128x1292) -> StyleEncoder (Conv2D) -> z_surf (576-D)
+   \--  Branch B (Raw Unpadded) -> Librosa/Scipy Extracts (128-D Moments)   -> x_narr (128-D)
+                                                                                  |
+Concat [z_surf (576-D) || x_narr (128-D)] = 704-D Fused Latent Representation ---+
+   |
+   v
 SupCon Projection Head (704-D -> 128-D Metric Space)
-   │
-   ▼
+   |
+   v
 Calibrated Fusion MLP (128-D -> Logits) -> Temperature Scaler (T = 0.9083) -> Sigmoid
-   │
-   ▼
-Calibrated Probability p ∈ [0, 1]  (Decision Threshold: τ = 0.1800)
+   |
+   v
+Calibrated Probability p  in  [0, 1]  (Decision Threshold: tau = 0.1800)
 ```

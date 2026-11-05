@@ -10,17 +10,17 @@
 
 ```
 Architecture-1/blog_series/
-├── BLOG_SERIES_BLUEPRINT.md               # Master Roadmap & Problem-Solution Matrix
-├── post_01_the_ai_music_crisis.md         # Post 1: The Problem & Why Audio Deepfakes are Different
-├── post_02_surface_vs_narrative.md        # Post 2: The Dual-Branch Architecture Hypothesis
-├── post_03_the_5000_track_prototype.md    # Post 3: The 5k Baseline & Where It Stumbled
-├── post_04_branch_a_simclr_encoder.md     # Post 4: Spectrogram Engineering & GPU FP16 Numerical Stability
-├── post_05_branch_b_narrative_moments.md  # Post 5: 128-D Musical Feature Extraction & Music Theory Math
-├── post_06_704d_supcon_alignment.md       # Post 6: Latent Manifold Mismatch & SupCon Metric Space
-├── post_07_the_20s_padding_war_story.md   # Post 7: WAR STORY: The 20s Zero-Padding Bug That Caused 29 NaNs
-├── post_08_the_narrative_rarity_paradox.md# Post 8: The Violin Plots: Pop Mode Collapse vs Ambient AI
-├── post_09_the_200k_benchmark_gauntlet.md # Post 9: Zero-Shot on 8 Unseen Models & 50,000 Streaming Tracks
-└── post_10_production_hardening_engine.md # Post 10: Platt Calibration, Multi-Worker IPC & 10/10 Audit
+|--  BLOG_SERIES_BLUEPRINT.md               # Master Roadmap & Problem-Solution Matrix
+|--  post_01_the_ai_music_crisis.md         # Post 1: The Problem & Why Audio Deepfakes are Different
+|--  post_02_surface_vs_narrative.md        # Post 2: The Dual-Branch Architecture Hypothesis
+|--  post_03_the_5000_track_prototype.md    # Post 3: The 5k Baseline & Where It Stumbled
+|--  post_04_branch_a_simclr_encoder.md     # Post 4: Spectrogram Engineering & GPU FP16 Numerical Stability
+|--  post_05_branch_b_narrative_moments.md  # Post 5: 128-D Musical Feature Extraction & Music Theory Math
+|--  post_06_704d_supcon_alignment.md       # Post 6: Latent Manifold Mismatch & SupCon Metric Space
+|--  post_07_the_20s_padding_war_story.md   # Post 7: WAR STORY: The 20s Zero-Padding Bug That Caused 29 NaNs
+|--  post_08_the_narrative_rarity_paradox.md# Post 8: The Violin Plots: Pop Mode Collapse vs Ambient AI
+|--  post_09_the_200k_benchmark_gauntlet.md # Post 9: Zero-Shot on 8 Unseen Models & 50,000 Streaming Tracks
+\--  post_10_production_hardening_engine.md # Post 10: Platt Calibration, Multi-Worker IPC & 10/10 Audit
 ```
 
 ---
@@ -78,7 +78,7 @@ Architecture-1/blog_series/
 
 ### Episode 6: 704 Dimensions: Overcoming the Latent Manifold Mismatch with SupCon
 * **Focus:** Merging acoustic texture (576-D) and musical composition (128-D).
-* **Problem Faced:** Standard concatenation into a linear layer caused gradient dominance—the model relied solely on surface texture and ignored musical narrative.
+* **Problem Faced:** Standard concatenation into a linear layer caused gradient dominance -- the model relied solely on surface texture and ignored musical narrative.
 * **The Solution:** Supervised Contrastive Learning (`SupCon`). Pulling all tracks of the same generator family together while pushing Human tracks apart in a normalized 128-D metric hypersphere.
 * **Visualization:** Analyzing the 2D t-SNE plot (`tsne_latent_space.png`) showing clean separation between AI and Human clusters.
 
@@ -87,7 +87,7 @@ Architecture-1/blog_series/
 * **The Symptom:** Model achieved $99.7\%$ on Suno, but plummeted to $79.3\%$ on AudioLDM and MusicGen, throwing 29 NaNs.
 * **The Culprit:** FakeMusicCaps tracks are 10s long. A global `pad=True` padded them with 20s of zeros ($441,000$ zeros).
 * **The Carnage:** Branch A (CNN) loved it; Branch B (Narrative) was ruined: RMS dropped by $66.7\%$, and Scipy skewness/kurtosis had catastrophic cancellation.
-* **The Fix:** Decoupling the pipelines—Branch A gets padded; Branch B gets 100% pure unpadded audio.
+* **The Fix:** Decoupling the pipelines -- Branch A gets padded; Branch B gets 100% pure unpadded audio.
 * **The Recovery:** AudioLDM jumped to **`99.88%`**, MusicGen jumped to **`99.52%`**, and all NaNs were eliminated.
 
 ### Episode 8: The "Narrative Rarity" Paradox: Decoding the Geometry of AI Music

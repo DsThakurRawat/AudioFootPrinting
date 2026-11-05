@@ -2,7 +2,7 @@
 
 **Detecting AI-Generated Music by fusing Contrastive Surface Learning with Structural "Narrative Logic."**
 
-MusicScope-CL is our submission architecture for **MIREX 2026 — AI-Generated Music Detection**. It's directly inspired by **StoryScope**, an NLP paper whose core insight was:
+MusicScope-CL is our submission architecture for **MIREX 2026  --  AI-Generated Music Detection**. It's directly inspired by **StoryScope**, an NLP paper whose core insight was:
 
 > Surface-level style (word choice, syntax) is easy for AI to fake. Deep narrative structure (plot causality, thematic development, non-linear time) is where AI still fails to mimic human creativity.
 
@@ -10,10 +10,10 @@ We translate that philosophy into audio, then go one step further: instead of re
 
 | Branch | What it learns | Method |
 |---|---|---|
-| **Branch A — Surface** | Vocoder artifacts, phase smearing, spectral physics of "real" recording | **Contrastive Learning (SimCLR → SupCon)** on log-Mel spectrograms |
-| **Branch B — Structure** | Harmonic tension, motif development, rhythmic groove, dynamic arcs | **MIR / DSP feature extraction** (`librosa` / `essentia`) |
+| **Branch A  --  Surface** | Vocoder artifacts, phase smearing, spectral physics of "real" recording | **Contrastive Learning (SimCLR  ->  SupCon)** on log-Mel spectrograms |
+| **Branch B  --  Structure** | Harmonic tension, motif development, rhythmic groove, dynamic arcs | **MIR / DSP feature extraction** (`librosa` / `essentia`) |
 
-AI generators can learn to hide their surface artifacts (Branch A's job), or — in theory — get better at structural coherence (Branch B's job). But beating **both at once** is far harder. That's the whole bet of this architecture.
+AI generators can learn to hide their surface artifacts (Branch A's job), or  --  in theory  --  get better at structural coherence (Branch B's job). But beating **both at once** is far harder. That's the whole bet of this architecture.
 
 ---
 
@@ -21,11 +21,11 @@ AI generators can learn to hide their surface artifacts (Branch A's job), or —
 
 ```mermaid
 flowchart LR
-    A["🎧 Raw Audio Clip
+    A[" Raw Audio Clip
 (30s chunk)"] --> B["Branch A: Surface
 Log-Mel Spectrogram
-→ MobileNetV3-Small
-→ SimCLR / SupCon"]
+ ->  MobileNetV3-Small
+ ->  SimCLR / SupCon"]
     A --> C["Branch B: Structure
 MIR / DSP Feature Extraction
 (Chroma, Onsets, SSM, RMS)"]
@@ -36,18 +36,18 @@ MIR / DSP Feature Extraction
 128-dim"]
 
     D --> F["Fusion Layer
-Concatenate → 704-dim"]
+Concatenate  ->  704-dim"]
     E --> F
 
     F --> G["SupCon Projection
 + Lightweight MLP / XGBoost"]
     G --> H["Sigmoid
-→ P(AI-generated)"]
+ ->  P(AI-generated)"]
 ```
 
 ---
 
-## The Rosetta Stone: Text Narrative → Music Structure
+## The Rosetta Stone: Text Narrative  ->  Music Structure
 
 The conceptual translation table the structural branch is built on.
 
@@ -55,17 +55,17 @@ The conceptual translation table the structural branch is built on.
 |---|---|---|
 | Thematic Explicitness | Motivic Development | AI loops perfectly; humans vary and develop motifs |
 | Chronological Discontinuity | Structural Transitions & Form | AI fades in/out; humans use fills, drops, harmonic pivots |
-| Moral Ambiguity | Harmonic & Rhythmic Tension | AI resolves cleanly (I–IV–V–I); humans use dissonance, swing |
+| Moral Ambiguity | Harmonic & Rhythmic Tension | AI resolves cleanly (I-IV-V-I); humans use dissonance, swing |
 | Sensory Density | Timbral Clutter / Spectral Density | AI fills all frequency bands; humans leave "space" |
 | Narrative Rarity | Dynamic Arc Rarity | AI's loudness curve is flat/linear; humans shape it non-linearly |
 
 ---
 
-##  Full Architecture Blueprint — Three Stages
+##  Full Architecture Blueprint  --  Three Stages
 
 ### Stage 1: Unsupervised Contrastive Pre-Training (the "Surface Eye")
 
-Learns robust audio textures **without ever touching a label** — this is what protects the model from the noisy labels in a 500GB scraped dataset.
+Learns robust audio textures **without ever touching a label**  --  this is what protects the model from the noisy labels in a 500GB scraped dataset.
 
 ```mermaid
 flowchart TB
@@ -87,27 +87,27 @@ Surface Embedding (E_surface)"]
 
 ### Stage 2: MusicScope MIR Feature Extraction (the "Structural Ear")
 
-Pure signal processing. **No neural network, no training** — the same Track-A pipeline as before.
+Pure signal processing. **No neural network, no training**  --  the same Track-A pipeline as before.
 
 ```mermaid
 flowchart TB
     S2_IN["Raw 30s Waveform"] --> A1["Chroma CQT
-→ Harmonic Entropy + Tension"]
+ ->  Harmonic Entropy + Tension"]
     S2_IN --> A2["Onset Strength
-→ IOI Variance (micro-timing)"]
+ ->  IOI Variance (micro-timing)"]
     S2_IN --> A3["Self-Similarity Matrix
-→ Motivic Recurrence Rate"]
+ ->  Motivic Recurrence Rate"]
     S2_IN --> A4["Spectral Flatness/Rolloff/Centroid
-→ Variance (spectral 'white space')"]
+ ->  Variance (spectral 'white space')"]
     S2_IN --> A5["RMS Energy
-→ Dynamic Envelope Variance"]
+ ->  Dynamic Envelope Variance"]
     A1 & A2 & A3 & A4 & A5 --> VSTRUCT["128-dim
 Structural Vector (V_structure)"]
 ```
 
 ### Stage 3: Supervised Contrastive Fusion & Classification (the "Decision Brain")
 
-This is where labels finally enter the pipeline — and instead of plain cross-entropy, we use **SupCon** to pull all Human tracks into one tight cluster and push all AI tracks into another, maximizing the margin between classes (directly maximizing AUROC).
+This is where labels finally enter the pipeline  --  and instead of plain cross-entropy, we use **SupCon** to pull all Human tracks into one tight cluster and push all AI tracks into another, maximizing the margin between classes (directly maximizing AUROC).
 
 ```mermaid
 flowchart TB
@@ -132,24 +132,24 @@ Calibrated via Temperature Scaling"]
 
 ##  Branch Details
 
-### Branch A — Surface (Contrastive Learning)
+### Branch A  --  Surface (Contrastive Learning)
 
 - **Input:** 128-band log-Mel spectrogram, 30s chunks.
 - **Backbone:** MobileNetV3-Small (HardSwish + SE-Attention), ~2.5M params.
-- **Stage 1 algorithm:** SimCLR — two augmented views per clip (time-mask + pitch-shift vs. freq-mask + noise-add), trained with NT-Xent loss to maximize agreement between views of the same track and minimize it across different tracks. **No labels used.**
-- **Stage 3 algorithm:** SupCon — once frozen, the embedding feeds into a supervised contrastive projection that now *does* use labels, explicitly clustering Human vs. AI representations rather than just drawing a thin decision boundary.
+- **Stage 1 algorithm:** SimCLR  --  two augmented views per clip (time-mask + pitch-shift vs. freq-mask + noise-add), trained with NT-Xent loss to maximize agreement between views of the same track and minimize it across different tracks. **No labels used.**
+- **Stage 3 algorithm:** SupCon  --  once frozen, the embedding feeds into a supervised contrastive projection that now *does* use labels, explicitly clustering Human vs. AI representations rather than just drawing a thin decision boundary.
 
-### Branch B — Structure (MIR / DSP)
+### Branch B  --  Structure (MIR / DSP)
 
-All features are computed with `librosa` / `essentia` — zero training required.
+All features are computed with `librosa` / `essentia`  --  zero training required.
 
-1. **Harmonic Ambiguity & Tension** — `librosa.feature.chroma_cqt` → harmonic entropy + bass/root dissonance curve.
+1. **Harmonic Ambiguity & Tension**  --  `librosa.feature.chroma_cqt`  ->  harmonic entropy + bass/root dissonance curve.
    *Tell:* AI stays rigidly in-key (low entropy); humans use modal mixture and borrowed chords.
-2. **Rhythmic Micro-Deviation** — `librosa.onset.onset_strength` → Inter-Onset Interval (IOI) variance.
+2. **Rhythmic Micro-Deviation**  --  `librosa.onset.onset_strength`  ->  Inter-Onset Interval (IOI) variance.
    *Tell:* AI is grid-quantized (near-zero variance); humans have groove/swing (high variance).
-3. **Motivic Repetition vs. Development** — Self-Similarity Matrix over chroma/mel → recurrence rate.
+3. **Motivic Repetition vs. Development**  --  Self-Similarity Matrix over chroma/mel  ->  recurrence rate.
    *Tell:* AI loops the same 4 bars; humans develop themes (low recurrence, high structural variance).
-4. **Spectral "White Space"** — Spectral flatness, rolloff, centroid variance over time.
+4. **Spectral "White Space"**  --  Spectral flatness, rolloff, centroid variance over time.
    *Tell:* AI vocoders smear energy across all bands; human mixes leave dynamic space.
 
 ---
@@ -163,14 +163,14 @@ Unsupervised SimCLR
 Branch A backbone
 (no labels)"] --> P2["Stage 2
 MIR Feature Extraction
-Branch B — zero training"]
+Branch B  --  zero training"]
     P2 --> P3["Interlude
 Latent Space Study
 UMAP on V_structure
 (Human = scattered, AI = clumped)"]
     P3 --> P4["Stage 3a
 Fuse E_surface + V_structure
-→ 704-dim vector"]
+ ->  704-dim vector"]
     P4 --> P5["Stage 3b
 Supervised Contrastive (SupCon)
 labels introduced here"]
@@ -185,42 +185,42 @@ Human vs AI classifier"]
 
 **Hypothesis (Interlude):** UMAP projection of structural vectors will show human tracks scattered widely (high structural rarity), while AI tracks cluster tightly ("AI convergence").
 
-**Why labels are introduced this late:** Stage 1 (SimCLR) and Stage 2 (MIR) never touch a label, so the representations they learn can't be corrupted by noisy labels in the 500GB dataset. Labels only shape the final decision boundary in Stage 3, once the backbone is frozen — this contains the blast radius of any label noise to the cheapest, fastest-to-retrain part of the pipeline.
+**Why labels are introduced this late:** Stage 1 (SimCLR) and Stage 2 (MIR) never touch a label, so the representations they learn can't be corrupted by noisy labels in the 500GB dataset. Labels only shape the final decision boundary in Stage 3, once the backbone is frozen  --  this contains the blast radius of any label noise to the cheapest, fastest-to-retrain part of the pipeline.
 
 ---
 
-## The "Uncanny Valley" Trap — Why Two Branches Beat One
+## The "Uncanny Valley" Trap  --  Why Two Branches Beat One
 
 | Scenario | Branch A (Surface/CL) | Branch B (Structure/MIR) | Verdict |
 |---|---|---|---|
-| AI track with a new vocoder that hides surface artifacts | ❌ Might be fooled | ✅ Still lacks human micro-timing & harmonic tension | Caught |
-| AI track engineered with complex, non-linear structure to fool structural detectors | ✅ Still detects phase discontinuities & spectral smearing | ❌ Might be fooled | Caught |
-| Human track, poorly recorded, messy playing/structure | ✅ Recognizes natural, un-synthesized acoustic physics | ❌ Might flag as "weird" | Correctly kept as Human |
+| AI track with a new vocoder that hides surface artifacts | [FAIL] Might be fooled | [PASS] Still lacks human micro-timing & harmonic tension | Caught |
+| AI track engineered with complex, non-linear structure to fool structural detectors | [PASS] Still detects phase discontinuities & spectral smearing | [FAIL] Might be fooled | Caught |
+| Human track, poorly recorded, messy playing/structure | [PASS] Recognizes natural, un-synthesized acoustic physics | [FAIL] Might flag as "weird" | Correctly kept as Human |
 
 Beating one branch is plausible for a generator. Beating both simultaneously, with no shared blind spot, is a much higher bar.
 
 ---
 
-## Ablation Plan (Proposed — Not Yet Executed)
+## Ablation Plan (Proposed  --  Not Yet Executed)
 
 > **Note:** This ablation study is a proposed experimental design for the MIREX technical report. These experiments have **not been run** yet. The "Expected AUROC" column reflects theoretical expectations, not measured results.
 
 | Model Variant | Branch A (Surface/CL) | Branch B (Structure/MIR) | Fusion | Expected AUROC | Inference Speed |
 |---|---|---|---|---|---|
-| Baseline | ❌ | ❌ | — | Low | Very Fast |
-| Surface Only | ✅ SimCLR | ❌ | — | Medium | Fast |
-| MusicScope Only | ❌ | ✅ MIR | — | Medium | Fast |
-| Fused (no SupCon) | ✅ | ✅ | Concat + plain CE | High | Fast |
-| **MusicScope-CL (Ours)** | ✅ | ✅ | Concat + **SupCon** | **Highest** | Fast |
+| Baseline | [FAIL] | [FAIL] |  --  | Low | Very Fast |
+| Surface Only | [PASS] SimCLR | [FAIL] |  --  | Medium | Fast |
+| MusicScope Only | [FAIL] | [PASS] MIR |  --  | Medium | Fast |
+| Fused (no SupCon) | [PASS] | [PASS] | Concat + plain CE | High | Fast |
+| **MusicScope-CL (Ours)** | [PASS] | [PASS] | Concat + **SupCon** | **Highest** | Fast |
 
 ---
 
 ##  Why This Wins MIREX 2026
 
 - **Solves the noisy-label problem:** Unsupervised pretraining (Stage 1) and label-free DSP (Stage 2) mean the representations are shaped before any noisy label is seen. Labels only touch the final, cheap-to-retrain fusion stage.
-- **Dual-layer defense, no shared blind spot:** See the Uncanny Valley table above — an AI generator has to simultaneously fool surface texture *and* structural logic, which is a much harder bar than fooling either alone.
+- **Dual-layer defense, no shared blind spot:** See the Uncanny Valley table above  --  an AI generator has to simultaneously fool surface texture *and* structural logic, which is a much harder bar than fooling either alone.
 - **SupCon maximizes margin, which maximizes AUROC:** Rather than a thin cross-entropy decision boundary, SupCon explicitly clusters Human vs. AI in embedding space, directly targeting the metric MIREX evaluates on.
-- **Lightweight & fast:** MobileNetV3-Small (~2.5M params) + millisecond-level DSP feature extraction + a tiny fusion head → comfortably fits the 24-hour, single-GPU MIREX constraint, with headroom to run **Multiple Instance Learning at inference** (slice each test song into three 30s chunks, average the scores) for an extra AUROC boost.
+- **Lightweight & fast:** MobileNetV3-Small (~2.5M params) + millisecond-level DSP feature extraction + a tiny fusion head  ->  comfortably fits the 24-hour, single-GPU MIREX constraint, with headroom to run **Multiple Instance Learning at inference** (slice each test song into three 30s chunks, average the scores) for an extra AUROC boost.
 
 ---
 
@@ -228,23 +228,23 @@ Beating one branch is plausible for a generator. Beating both simultaneously, wi
 
 ```
 Architecture-1/model/
-├── README.md                  # this file
-├── arch.md                    # deep-dive on design decisions
-├── requirement.txt            # dependencies
-├── config.py                  # global constants, audio parameters, directory bindings
-├── dataset.py                 # paired-view SimCLR augmentations and labeled loaders
-├── track_a_narrative.py       # Branch B: 128-dim structural narrative DSP extractor
-├── track_b_style.py           # Branch A: MobileNetV3 surface style backbone
-├── train_simclr.py            # Stage 1: unsupervised SimCLR pretraining
-├── train_supcon.py            # Stage 3b: supervised contrastive fusion
-├── fusion_model.py            # Stage 3c: calibrated classification head
-├── inference.py               # inference entrypoint
-├── new_inference.py           # production FastMusicScopeScorer
-├── serve_api.py               # FastAPI serving endpoint
-└── checkpoints/               # trained model weights (*.pt)
+|--  README.md                  # this file
+|--  arch.md                    # deep-dive on design decisions
+|--  requirement.txt            # dependencies
+|--  config.py                  # global constants, audio parameters, directory bindings
+|--  dataset.py                 # paired-view SimCLR augmentations and labeled loaders
+|--  track_a_narrative.py       # Branch B: 128-dim structural narrative DSP extractor
+|--  track_b_style.py           # Branch A: MobileNetV3 surface style backbone
+|--  train_simclr.py            # Stage 1: unsupervised SimCLR pretraining
+|--  train_supcon.py            # Stage 3b: supervised contrastive fusion
+|--  fusion_model.py            # Stage 3c: calibrated classification head
+|--  inference.py               # inference entrypoint
+|--  new_inference.py           # production FastMusicScopeScorer
+|--  serve_api.py               # FastAPI serving endpoint
+\--  checkpoints/               # trained model weights (*.pt)
 ```
 
-> **Note on file naming:** `track_a_narrative.py` implements Branch B (Structural Narrative), and `track_b_style.py` implements Branch A (Surface Style). The file naming is inverted relative to the architecture spec — this is a historical artifact.
+> **Note on file naming:** `track_a_narrative.py` implements Branch B (Structural Narrative), and `track_b_style.py` implements Branch A (Surface Style). The file naming is inverted relative to the architecture spec  --  this is a historical artifact.
 
 ---
 
@@ -276,6 +276,6 @@ This project's methodology is adapted from the **StoryScope** paper's approach t
 
 ---
 
-## 🗒️ Status
+##  Status
 
 MusicScope-CL has been trained on 159,423 tracks and evaluated on a 28,134-track held-out set achieving **0.9970 AUROC** and **1.55% EER**. The system is submission-ready for MIREX 2026.

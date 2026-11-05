@@ -12,8 +12,8 @@ This directory contains local utilities, data preparation tools, multi-core feat
 ### 1. Training & Feature Extraction
 | Script | Description | Usage Command |
 | :--- | :--- | :--- |
-| **[`train_gpu_200k.py`](./train_gpu_200k.py)** | High-throughput GPU training pipeline with FP16 AMP, auto-resume, and batch size 128–256. | `python train_gpu_200k.py --epochs 5` |
-| **[`extract_narrative_200k.py`](./extract_narrative_200k.py)** | Multi-process (18–20 workers) 128-D narrative feature extractor with milestone caching. | `python extract_narrative_200k.py --workers 18 --chunk_size 5000` |
+| **[`train_gpu_200k.py`](./train_gpu_200k.py)** | High-throughput GPU training pipeline with FP16 AMP, auto-resume, and batch size 128-256. | `python train_gpu_200k.py --epochs 5` |
+| **[`extract_narrative_200k.py`](./extract_narrative_200k.py)** | Multi-process (18-20 workers) 128-D narrative feature extractor with milestone caching. | `python extract_narrative_200k.py --workers 18 --chunk_size 5000` |
 | **[`split_dataset_200k.py`](./split_dataset_200k.py)** | Generates clean 85% Train (159k) / 15% Val (28k) stratified partition without corrupt audio. | `python split_dataset_200k.py` |
 | **[`train_heads_fast.py`](./train_heads_fast.py)** | Rapidly trains and calibrates SupCon projection and FusionMLP classification heads in-memory. | `python train_heads_fast.py` |
 

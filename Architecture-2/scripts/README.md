@@ -1,6 +1,6 @@
 # Scripts
 
-**`python3 run.py` in the repo root supersedes everything here** — one
+**`python3 run.py` in the repo root supersedes everything here**  --  one
 cross-platform driver, same commands on Linux, macOS and Windows. See
 RUNBOOK.md. These shell scripts remain for reference and do the same work.
 
@@ -8,10 +8,10 @@ The Python helpers in `lib/` are shared by `run.py` and both shell pipelines.
 
 ---
 
-# Shell scripts — run these in order
+# Shell scripts  --  run these in order
 
-Linux/macOS: `scripts/*.sh`. Windows: `scripts/win/*.ps1` (PowerShell 7+), or —
-better — run the bash scripts unchanged under WSL2. See RUNBOOK.md § Windows.
+Linux/macOS: `scripts/*.sh`. Windows: `scripts/win/*.ps1` (PowerShell 7+), or  -- 
+better  --  run the bash scripts unchanged under WSL2. See RUNBOOK.md Sec.  Windows.
 
 Every script is idempotent and resumable: re-run after any interruption.
 Each sources `env.sh`, logs to `logs/`, and tells you what comes next.
@@ -32,12 +32,12 @@ The defaults put 500 GB inside the repo. `00_preflight.sh` warns if you forget.
 |---|---|---|---|
 | 00 | `00_preflight.sh` | GPU, compute capability, disk, ffmpeg | seconds |
 | 01 | `01_setup.sh` | venv, deps, 107 tests | 5 min |
-| 02 | `02_fetch_data.sh` | the 501 GB sample + registration | hours–days |
+| 02 | `02_fetch_data.sh` | the 501 GB sample + registration | hours-days |
 | 03 | `03_generate.sh` | ACE-Step / YuE / Mureka / MiniMax, then FLAC | days |
-| 04 | `04_quarantine_gate.sh` | **HARD GATE** — zero SDD overlap | minutes |
-| 05 | `05_confound_gate.sh` | **HARD GATE** — probe AUROC < 0.60 | ~20 min |
+| 04 | `04_quarantine_gate.sh` | **HARD GATE**  --  zero SDD overlap | minutes |
+| 05 | `05_confound_gate.sh` | **HARD GATE**  --  probe AUROC < 0.60 | ~20 min |
 | 06 | `06_harness.sh` | freeze dev set, materialize strata | ~1 h |
-| 07 | `07_train_all.sh` | 35 jobs across your GPUs | days–weeks |
+| 07 | `07_train_all.sh` | 35 jobs across your GPUs | days-weeks |
 | 08 | `08_fusion.sh` | stacked fusion + calibration | minutes |
 | 09 | `09_container.sh` | offline Docker + runtime rehearsal | ~1 h |
 
@@ -61,7 +61,7 @@ export MUREKA_API_KEY=... MINIMAX_API_KEY=...
 of the hidden real set) reached your training pool. `05` fails if labels are
 predictable from bitrate, sample rate or loudness rather than content. Both
 exit non-zero and both stop the run. If `05` fails, suspect the **subset
-composition before the model** — the MTG audio tier and FMA clip length are the
+composition before the model**  --  the MTG audio tier and FMA clip length are the
 usual causes at 500 GB.
 
 ## Useful overrides
@@ -79,7 +79,7 @@ MIREX_SMALL=1 ./scripts/07_train_all.sh           # 95M MERT for branch b
 `08_fusion.sh` needs `oof_scores.jsonl`, and **nothing in the repo generates
 it**. You need a script that, for each LOGO fold, loads that fold's held-out
 tracks and scores them with that fold's five checkpoints. It is the one piece
-of pipeline code still missing — the script tells you so rather than failing
+of pipeline code still missing  --  the script tells you so rather than failing
 obscurely.
 
 ## Windows
@@ -95,7 +95,7 @@ $env:MIREX_DATA_DIR = "D:\mirex\data"
 
 WSL2 is the better path for anything multi-GPU: CUDA passes through, the bash
 scripts run unchanged, and you avoid maintaining a second copy. Keep the data
-on the Linux filesystem, not `/mnt/c` — cross-filesystem I/O is roughly 10x
+on the Linux filesystem, not `/mnt/c`  --  cross-filesystem I/O is roughly 10x
 slower and this pipeline is I/O-bound.
 
 The Python helpers in `lib/` are cross-platform and shared by both pipelines.

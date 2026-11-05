@@ -2,7 +2,7 @@
 
 **Architecture**: Dual-Branch Contrastive Acoustic & Narrative Manifold (MusicScope-CL)  
 **Evaluated Hardware**: NVIDIA RTX 2000 Ada Generation (16GB VRAM, 20 CPU Workers)  
-**Evaluation Dates**: September 22–23, 2026  
+**Evaluation Dates**: September 22-23, 2026  
 **Status**: All Validation Milestones Completed & Verified  
 
 ---
@@ -36,8 +36,8 @@ To test whether MusicScope-CL learned the intrinsic acoustic-narrative physics o
 | **Producer (CassetteAI)** | Hybrid Production Engine | **300** | **`79.67%` Caught** | `0.9502` | `0.7057` | **Solid Zero-Shot** |
 | **Stable Audio** | Continuous Latent Diffusion | **194** | **`73.71%` Caught** | `0.9597` | `0.6752` | **Solid Zero-Shot** |
 | **Mubert** | Algorithmic Loop Assembler | **149** | `11.41%` Caught | `0.0324` | `0.1114` | *Human-recorded loops* |
-| **OVERALL MACRO-AUROC** | — | **2,876** | — | — | — | **`0.9933` (99.33%)** |
-| **OVERALL F1 SCORE** | — | **2,876** | — | — | — | **`0.9094` (90.94%)** |
+| **OVERALL MACRO-AUROC** |  --  | **2,876** |  --  |  --  |  --  | **`0.9933` (99.33%)** |
+| **OVERALL F1 SCORE** |  --  | **2,876** |  --  |  --  |  --  | **`0.9094` (90.94%)** |
 
 ![Phase 1 Zero-Shot Scorecard](./unseen_generators_scorecard.png)
 
@@ -78,7 +78,7 @@ The complete held-out validation set of **28,134 physical audio files** was proc
 
 ### Root Cause Analysis of the Previous 0.00% Score
 * **The Silence Padding Artifact:** FakeMusicCaps tracks are 10 seconds long. Previously, inference padded 20 seconds of dead silence to create a 30s buffer before extracting features. This compressed RMS energy by 66% and collapsed lower percentiles to zero.
-* **The Resolution:** Narrative feature extraction now processes natural unpadded audio (`pad=False`), while 2D log-Mel spectrogram grids are padded strictly for the convolutional encoder. This restored AudioLDM, MusicGen, and Mustango to **99.5%–99.9% detection**.
+* **The Resolution:** Narrative feature extraction now processes natural unpadded audio (`pad=False`), while 2D log-Mel spectrogram grids are padded strictly for the convolutional encoder. This restored AudioLDM, MusicGen, and Mustango to **99.5%-99.9% detection**.
 
 ---
 
@@ -130,15 +130,15 @@ To evaluate real-world production robustness on audio ingested live from the web
 
 ## Verification Artifact Directory
 All primary data, prediction CSVs, and high-resolution publication charts are co-located in this directory:
-* [`eval_28k_retrained_results.csv`](./eval_28k_retrained_results.csv) — 28,134 track predictions (Phase 2)
-* [`eval_unseen_generators_results.csv`](./eval_unseen_generators_results.csv) — 2,876 track predictions (Phase 1)
-* [`scores_50k_streaming.csv`](./scores_50k_streaming.csv) — 50,000 streaming track predictions (Phase 3)
-* [`eval_28k_retrained_analysis.png`](./eval_28k_retrained_analysis.png) — Publication Scorecard
-* [`unseen_generators_scorecard.png`](./unseen_generators_scorecard.png) — Zero-Shot Scorecard
-* [`phase3_streaming_scorecard.png`](./phase3_streaming_scorecard.png) — Streaming Scorecard
-* [`tsne_latent_space.png`](./tsne_latent_space.png) — Latent Manifold Topology
-* [`narrative_rarity_musicscope.png`](./narrative_rarity_musicscope.png) — Narrative Rarity Violin Plot
+* [`eval_28k_retrained_results.csv`](./eval_28k_retrained_results.csv)  --  28,134 track predictions (Phase 2)
+* [`eval_unseen_generators_results.csv`](./eval_unseen_generators_results.csv)  --  2,876 track predictions (Phase 1)
+* [`scores_50k_streaming.csv`](./scores_50k_streaming.csv)  --  50,000 streaming track predictions (Phase 3)
+* [`eval_28k_retrained_analysis.png`](./eval_28k_retrained_analysis.png)  --  Publication Scorecard
+* [`unseen_generators_scorecard.png`](./unseen_generators_scorecard.png)  --  Zero-Shot Scorecard
+* [`phase3_streaming_scorecard.png`](./phase3_streaming_scorecard.png)  --  Streaming Scorecard
+* [`tsne_latent_space.png`](./tsne_latent_space.png)  --  Latent Manifold Topology
+* [`narrative_rarity_musicscope.png`](./narrative_rarity_musicscope.png)  --  Narrative Rarity Violin Plot
 
 Model checkpoints:
-* `Architecture-1/model/checkpoints/supcon_200k_best.pt` — Trained SupCon Weights
-* `Architecture-1/model/checkpoints/fusion_200k_best.pt` — Calibrated Fusion Weights
+* `Architecture-1/model/checkpoints/supcon_200k_best.pt`  --  Trained SupCon Weights
+* `Architecture-1/model/checkpoints/fusion_200k_best.pt`  --  Calibrated Fusion Weights

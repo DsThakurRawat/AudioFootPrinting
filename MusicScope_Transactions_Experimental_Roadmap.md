@@ -1,7 +1,7 @@
 # MusicScope Transactions Research Plan
 ## Sequential Experimental Instruction Set for Local LLM
 
-**Project:** MusicScope-CL — AI-Generated Music Detection  
+**Project:** MusicScope-CL  --  AI-Generated Music Detection  
 **Goal:** Convert the existing MIREX/ISMIR work into a Transactions-level study centered on **generalization, invariance, interpretability, and evidence complementarity**, rather than only a high headline AUROC.
 
 ---
@@ -10,7 +10,7 @@
 
 The paper should not be framed primarily as:
 
-> “MusicScope combines acoustic and structural features and achieves 0.997 AUROC.”
+> "MusicScope combines acoustic and structural features and achieves 0.997 AUROC."
 
 The stronger scientific framing is:
 
@@ -106,22 +106,22 @@ Every experiment folder should contain, where applicable:
 
 ```text
 experiment_name/
-├── config.yaml
-├── manifest.parquet
-├── run.sh
-├── train.py
-├── evaluate.py
-├── checkpoints/
-├── predictions/
-│   ├── track_scores.parquet
-│   └── generator_scores.parquet
-├── metrics/
-│   ├── summary.json
-│   ├── per_generator.csv
-│   └── confidence_intervals.csv
-├── figures/
-├── logs/
-└── README.md
+|--  config.yaml
+|--  manifest.parquet
+|--  run.sh
+|--  train.py
+|--  evaluate.py
+|--  checkpoints/
+|--  predictions/
+|   |--  track_scores.parquet
+|   \--  generator_scores.parquet
+|--  metrics/
+|   |--  summary.json
+|   |--  per_generator.csv
+|   \--  confidence_intervals.csv
+|--  figures/
+|--  logs/
+\--  README.md
 ```
 
 The experiment `README.md` must contain:
@@ -194,7 +194,7 @@ Report the following wherever meaningful:
 For each condition:
 
 ```text
-ΔOOD = AUROC_ID - AUROC_OOD
+DeltaOOD = AUROC_ID - AUROC_OOD
 ```
 
 ### Statistics
@@ -212,7 +212,7 @@ For model training:
 
 ```text
 >= 5 seeds
-mean ± std
+mean +/- std
 ```
 
 Do not use a single best seed as the main result.
@@ -223,7 +223,7 @@ Do not use a single best seed as the main result.
 
 ---
 
-# STAGE 0 — Freeze the Existing System
+# STAGE 0  --  Freeze the Existing System
 
 ## Objective
 
@@ -266,13 +266,13 @@ musicscope_v1_frozen
 
 ```text
 artifacts/stage0_freeze/
-├── CODE_VERSION.md
-├── ENVIRONMENT.txt
-├── checkpoint_inventory.csv
-├── dataset_inventory.csv
-├── existing_results.csv
-├── existing_figures/
-└── README.md
+|--  CODE_VERSION.md
+|--  ENVIRONMENT.txt
+|--  checkpoint_inventory.csv
+|--  dataset_inventory.csv
+|--  existing_results.csv
+|--  existing_figures/
+\--  README.md
 ```
 
 ## Exit Condition
@@ -281,7 +281,7 @@ Proceed only when the existing system can be reconstructed without relying on un
 
 ---
 
-# STAGE 1 — Dataset and Provenance Audit
+# STAGE 1  --  Dataset and Provenance Audit
 
 ## Objective
 
@@ -292,11 +292,11 @@ Establish a trustworthy file-level dataset registry and resolve every generator/
 Explicitly verify:
 
 - SONICS generator/version labels;
-- whether any row labelled “Suno v5” actually comes from SONICS;
+- whether any row labelled "Suno v5" actually comes from SONICS;
 - FakeMusicCaps generator composition;
-- whether “FMC Udio” is a custom extension or a labeling error;
+- whether "FMC Udio" is a custom extension or a labeling error;
 - Stable Audio occurrences in development and reported zero-shot partitions;
-- whether the eight “unseen” generators were truly unseen at model/version level.
+- whether the eight "unseen" generators were truly unseen at model/version level.
 
 ## Tasks
 
@@ -351,23 +351,23 @@ Perform:
 
 ```text
 artifacts/stage1_audit/
-├── canonical_manifest.parquet
-├── canonical_manifest.tsv
-├── generator_registry.csv
-├── split_registry.csv
-├── duplicate_report.csv
-├── near_duplicate_report.csv
-├── artist_overlap_report.csv
-├── prompt_overlap_report.csv
-├── provenance_issues.md
-├── resolved_label_changes.csv
-└── README.md
+|--  canonical_manifest.parquet
+|--  canonical_manifest.tsv
+|--  generator_registry.csv
+|--  split_registry.csv
+|--  duplicate_report.csv
+|--  near_duplicate_report.csv
+|--  artist_overlap_report.csv
+|--  prompt_overlap_report.csv
+|--  provenance_issues.md
+|--  resolved_label_changes.csv
+\--  README.md
 ```
 
 Also create the paper-ready matrix:
 
 ```text
-Generator × Version × Pretrain × Train × Validation × Calibration × Test
+Generator  x  Version  x  Pretrain  x  Train  x  Validation  x  Calibration  x  Test
 ```
 
 ## Exit Condition
@@ -377,11 +377,11 @@ Proceed only when:
 - every evaluated file has known provenance;
 - exact duplicates across train/test are zero;
 - ambiguous generator labels are resolved;
-- “unseen generator” claims can be stated precisely.
+- "unseen generator" claims can be stated precisely.
 
 ---
 
-# STAGE 2 — Reproduce MusicScope-v1
+# STAGE 2  --  Reproduce MusicScope-v1
 
 ## Objective
 
@@ -414,15 +414,15 @@ Do not tune architecture.
 
 ```text
 artifacts/stage2_reproduction/
-├── heldout_results_by_seed.csv
-├── aggregate_results.csv
-├── per_generator_results.csv
-├── per_track_predictions.parquet
-├── reproduction_delta_vs_original.csv
-├── configs/
-├── checkpoints/
-├── figures/
-└── README.md
+|--  heldout_results_by_seed.csv
+|--  aggregate_results.csv
+|--  per_generator_results.csv
+|--  per_track_predictions.parquet
+|--  reproduction_delta_vs_original.csv
+|--  configs/
+|--  checkpoints/
+|--  figures/
+\--  README.md
 ```
 
 Required figure:
@@ -434,7 +434,7 @@ Original reported metric vs reproduced metric
 Required table:
 
 ```text
-Model | AUROC | AUPRC | EER | TPR@1%FPR | mean ± std
+Model | AUROC | AUPRC | EER | TPR@1%FPR | mean +/- std
 ```
 
 ## Exit Condition
@@ -451,13 +451,13 @@ If major deviation occurs, stop and diagnose before continuing.
 
 ---
 
-# STAGE 3 — Shortcut and Dataset-Bias Audit
+# STAGE 3  --  Shortcut and Dataset-Bias Audit
 
 ## Objective
 
 Determine whether the detector can exploit source metadata or preprocessing shortcuts.
 
-## Experiment 3A — Metadata-Only Classifier
+## Experiment 3A  --  Metadata-Only Classifier
 
 Train a simple classifier using only:
 
@@ -485,7 +485,7 @@ metadata_only_results.csv
 metadata_feature_importance.csv
 ```
 
-## Experiment 3B — Source Prediction
+## Experiment 3B  --  Source Prediction
 
 Predict dataset identity from simple metadata/audio summary features.
 
@@ -497,7 +497,7 @@ High source-prediction accuracy indicates strong dataset fingerprints.
 dataset_source_prediction.csv
 ```
 
-## Experiment 3C — Uniform Transcoding Control
+## Experiment 3C  --  Uniform Transcoding Control
 
 Convert a controlled evaluation subset to:
 
@@ -517,14 +517,14 @@ Evaluate MusicScope-v1 before and after normalization.
 canonical_transcoding_delta.csv
 ```
 
-## Experiment 3D — Multi-Source Human Test
+## Experiment 3D  --  Multi-Source Human Test
 
 Evaluate false-positive rate independently on human music from multiple datasets.
 
 Do not allow:
 
 ```text
-human ≡ FMA
+human == FMA
 ```
 
 ### Deliverable
@@ -552,7 +552,7 @@ If severe shortcut evidence appears, rebuild/rebalance the development corpus be
 
 ---
 
-# STAGE 4 — Controlled Fusion and SupCon Study
+# STAGE 4  --  Controlled Fusion and SupCon Study
 
 ## Objective
 
@@ -584,12 +584,12 @@ Same:
 
 ```text
 artifacts/stage4_metric_learning/
-├── metric_learning_comparison.csv
-├── learning_curves.csv
-├── seed_variance.csv
-├── latent_separation_metrics.csv
-├── per_track_predictions/
-└── README.md
+|--  metric_learning_comparison.csv
+|--  learning_curves.csv
+|--  seed_variance.csv
+|--  latent_separation_metrics.csv
+|--  per_track_predictions/
+\--  README.md
 ```
 
 ## Required Analysis
@@ -606,7 +606,7 @@ Do not select based only on best held-out AUROC. Include OOD evidence once avail
 
 ---
 
-# STAGE 5 — Strong Baseline Suite
+# STAGE 5  --  Strong Baseline Suite
 
 ## Objective
 
@@ -633,7 +633,7 @@ Attempt to reproduce or use official checkpoints for:
 
 ## Two Evaluation Modes
 
-### Mode A — Native
+### Mode A  --  Native
 
 Use official pretrained checkpoints and preprocessing where available.
 
@@ -643,7 +643,7 @@ Purpose:
 How do existing deployable systems behave on our evaluation sets?
 ```
 
-### Mode B — Common Training
+### Mode B  --  Common Training
 
 Retrain reproducible systems using the same training corpus.
 
@@ -659,20 +659,20 @@ Never combine Mode A and Mode B into one leaderboard without labeling the distin
 
 ```text
 artifacts/stage5_baselines/
-├── baseline_inventory.csv
-├── baseline_reproduction_notes.md
-├── native_protocol_results.csv
-├── common_training_results.csv
-├── unavailable_or_failed_baselines.md
-├── checkpoints/
-└── README.md
+|--  baseline_inventory.csv
+|--  baseline_reproduction_notes.md
+|--  native_protocol_results.csv
+|--  common_training_results.csv
+|--  unavailable_or_failed_baselines.md
+|--  checkpoints/
+\--  README.md
 ```
 
 For unavailable systems, record the reason rather than silently excluding them.
 
 ---
 
-# STAGE 6 — Leave-One-Generator-Out (LOGO)
+# STAGE 6  --  Leave-One-Generator-Out (LOGO)
 
 ## Objective
 
@@ -705,19 +705,19 @@ For every generator:
 - AUPRC;
 - EER;
 - TPR@1%FPR;
-- ΔOOD.
+- DeltaOOD.
 
 ## Deliverables
 
 ```text
 artifacts/stage6_logo/
-├── logo_full_results.csv
-├── logo_summary.csv
-├── logo_heatmap.pdf
-├── logo_degradation.csv
-├── worst_generator_analysis.md
-├── predictions/
-└── README.md
+|--  logo_full_results.csv
+|--  logo_summary.csv
+|--  logo_heatmap.pdf
+|--  logo_degradation.csv
+|--  worst_generator_analysis.md
+|--  predictions/
+\--  README.md
 ```
 
 ## Required Questions
@@ -742,7 +742,7 @@ Record the verdict before proceeding.
 
 ---
 
-# STAGE 7 — Leave-One-Architecture-Family-Out
+# STAGE 7  --  Leave-One-Architecture-Family-Out
 
 ## Objective
 
@@ -770,11 +770,11 @@ Hold out one complete architecture family at a time.
 
 ```text
 artifacts/stage7_family_ood/
-├── family_definition.md
-├── family_holdout_results.csv
-├── family_holdout_heatmap.pdf
-├── family_degradation.csv
-└── README.md
+|--  family_definition.md
+|--  family_holdout_results.csv
+|--  family_holdout_heatmap.pdf
+|--  family_degradation.csv
+\--  README.md
 ```
 
 ## Required Interpretation
@@ -789,7 +789,7 @@ or something that transfers across synthesis paradigms.
 
 ---
 
-# STAGE 8 — External Cross-Dataset Generalization
+# STAGE 8  --  External Cross-Dataset Generalization
 
 ## Objective
 
@@ -822,13 +822,13 @@ using the external test labels.
 
 ```text
 artifacts/stage8_external_ood/
-├── external_dataset_registry.csv
-├── external_results.csv
-├── external_per_generator.csv
-├── external_human_fpr.csv
-├── cross_dataset_summary.csv
-├── worst_domain_analysis.md
-└── README.md
+|--  external_dataset_registry.csv
+|--  external_results.csv
+|--  external_per_generator.csv
+|--  external_human_fpr.csv
+|--  cross_dataset_summary.csv
+|--  worst_domain_analysis.md
+\--  README.md
 ```
 
 ## Main Paper Table
@@ -841,7 +841,7 @@ The `Worst` column must be retained.
 
 ---
 
-# STAGE 9 — Delivery-Chain Robustness
+# STAGE 9  --  Delivery-Chain Robustness
 
 ## Objective
 
@@ -914,20 +914,20 @@ Evaluate separately:
 
 ```text
 artifacts/stage9_robustness/
-├── perturbation_manifest.parquet
-├── robustness_all_results.csv
-├── robustness_delta.csv
-├── ate_robustness_curves.pdf
-├── cne_robustness_curves.pdf
-├── fusion_robustness_curves.pdf
-├── branch_comparison.pdf
-└── README.md
+|--  perturbation_manifest.parquet
+|--  robustness_all_results.csv
+|--  robustness_delta.csv
+|--  ate_robustness_curves.pdf
+|--  cne_robustness_curves.pdf
+|--  fusion_robustness_curves.pdf
+|--  branch_comparison.pdf
+\--  README.md
 ```
 
 ## Key Quantity
 
 ```text
-ΔAUROC = AUROC_clean - AUROC_perturbed
+DeltaAUROC = AUROC_clean - AUROC_perturbed
 ```
 
 ## Core Question
@@ -942,7 +942,7 @@ This is one of the most important tests in the project.
 
 ---
 
-# STAGE 10 — Controlled Structural Intervention Study
+# STAGE 10  --  Controlled Structural Intervention Study
 
 ## Objective
 
@@ -950,7 +950,7 @@ Directly test whether CNE responds to musical organization rather than only surf
 
 This is a central Transactions experiment.
 
-## Experiment 10A — Surface Intervention / Structure Preserved
+## Experiment 10A  --  Surface Intervention / Structure Preserved
 
 Apply:
 
@@ -963,18 +963,18 @@ Apply:
 Measure score changes:
 
 ```text
-Δscore_ATE
-Δscore_CNE
-Δscore_fusion
+Deltascore_ATE
+Deltascore_CNE
+Deltascore_fusion
 ```
 
 Expected hypothesis:
 
 ```text
-|ΔATE| > |ΔCNE|
+|DeltaATE| > |DeltaCNE|
 ```
 
-## Experiment 10B — Section Permutation
+## Experiment 10B  --  Section Permutation
 
 Segment tracks into musical sections where possible.
 
@@ -992,7 +992,7 @@ S1 S4 S2 S5 S3
 
 Use crossfades to avoid trivial discontinuity artifacts.
 
-## Experiment 10C — Section Repetition
+## Experiment 10C  --  Section Repetition
 
 Example:
 
@@ -1006,15 +1006,15 @@ becomes:
 S1 S2 S2 S2 S4
 ```
 
-## Experiment 10D — Motif Duplication
+## Experiment 10D  --  Motif Duplication
 
 Artificially increase recurrence/self-similarity while preserving timbre.
 
-## Experiment 10E — Dynamic Flattening
+## Experiment 10E  --  Dynamic Flattening
 
 Reduce macro-level dynamic evolution while retaining local acoustic identity as much as possible.
 
-## Experiment 10F — Timing Quantization
+## Experiment 10F  --  Timing Quantization
 
 Where technically valid, reduce expressive onset deviations without changing instrumentation.
 
@@ -1022,13 +1022,13 @@ Where technically valid, reduce expressive onset deviations without changing ins
 
 ```text
 artifacts/stage10_interventions/
-├── intervention_manifest.parquet
-├── intervention_results.csv
-├── intervention_score_deltas.csv
-├── ate_vs_cne_intervention_matrix.pdf
-├── example_audio_registry.csv
-├── methodology.md
-└── README.md
+|--  intervention_manifest.parquet
+|--  intervention_results.csv
+|--  intervention_score_deltas.csv
+|--  ate_vs_cne_intervention_matrix.pdf
+|--  example_audio_registry.csv
+|--  methodology.md
+\--  README.md
 ```
 
 ## Desired Paper Figure
@@ -1037,19 +1037,19 @@ A matrix conceptually similar to:
 
 ```text
                        ATE         CNE
-MP3                    ↓↓          ~
-EQ                     ↓           ~
-Resampling             ↓           ~
-Section shuffle        ~           ↓
-Motif repetition       ~           ↓
-Dynamic flattening     ~           ↓
+MP3                     v  v           ~
+EQ                      v            ~
+Resampling              v            ~
+Section shuffle        ~            v 
+Motif repetition       ~            v 
+Dynamic flattening     ~            v 
 ```
 
 The actual figure must reflect measured results, not expected results.
 
 ---
 
-# STAGE 11 — CNE Feature-Family Dissection
+# STAGE 11  --  CNE Feature-Family Dissection
 
 ## Objective
 
@@ -1082,7 +1082,7 @@ CNE_full - g
 Compute:
 
 ```text
-Δg = AUROC_full - AUROC_without_g
+Deltag = AUROC_full - AUROC_without_g
 ```
 
 Run both:
@@ -1096,12 +1096,12 @@ Run both:
 
 ```text
 artifacts/stage11_cne_ablation/
-├── standalone_group_results.csv
-├── leave_one_group_out.csv
-├── per_generator_group_importance.csv
-├── ood_group_importance.csv
-├── feature_group_heatmap.pdf
-└── README.md
+|--  standalone_group_results.csv
+|--  leave_one_group_out.csv
+|--  per_generator_group_importance.csv
+|--  ood_group_importance.csv
+|--  feature_group_heatmap.pdf
+\--  README.md
 ```
 
 ## Required Interpretation
@@ -1118,13 +1118,13 @@ Instead identify whether different generators rely on different structural cues.
 
 ---
 
-# STAGE 12 — Representation Probing and Complementarity
+# STAGE 12  --  Representation Probing and Complementarity
 
 ## Objective
 
 Measure whether ATE and CNE encode different information.
 
-## Experiment 12A — Authenticity Probe
+## Experiment 12A  --  Authenticity Probe
 
 Train a lightweight probe:
 
@@ -1138,7 +1138,7 @@ for:
 - CNE representation;
 - fused representation.
 
-## Experiment 12B — Generator-ID Probe
+## Experiment 12B  --  Generator-ID Probe
 
 Train:
 
@@ -1159,13 +1159,13 @@ ATE may contain stronger generator-ID information.
 CNE may contain less generator-ID information while remaining useful for authenticity.
 ```
 
-## Experiment 12C — Error Complementarity
+## Experiment 12C  --  Error Complementarity
 
 Calculate:
 
 ```text
 corr(score_ATE, score_CNE)
-P(E_ATE ∩ E_CNE)
+P(E_ATE  intersect  E_CNE)
 P(CNE correct | ATE wrong)
 P(ATE correct | CNE wrong)
 branch disagreement rate
@@ -1177,13 +1177,13 @@ Also compute these values per generator.
 
 ```text
 artifacts/stage12_probes/
-├── authenticity_probe.csv
-├── generator_probe.csv
-├── branch_score_correlation.csv
-├── branch_error_overlap.csv
-├── conditional_recovery.csv
-├── probe_visualizations/
-└── README.md
+|--  authenticity_probe.csv
+|--  generator_probe.csv
+|--  branch_score_correlation.csv
+|--  branch_error_overlap.csv
+|--  conditional_recovery.csv
+|--  probe_visualizations/
+\--  README.md
 ```
 
 ## Exit Condition
@@ -1192,7 +1192,7 @@ The term **complementary** may only be used strongly in the final paper if this 
 
 ---
 
-# STAGE 13 — Temporal Horizon Study
+# STAGE 13  --  Temporal Horizon Study
 
 ## Objective
 
@@ -1224,11 +1224,11 @@ Evaluate separately:
 
 ```text
 artifacts/stage13_context/
-├── duration_results.csv
-├── per_generator_duration.csv
-├── duration_curves.pdf
-├── duration_degradation.csv
-└── README.md
+|--  duration_results.csv
+|--  per_generator_duration.csv
+|--  duration_curves.pdf
+|--  duration_degradation.csv
+\--  README.md
 ```
 
 ## Key Question
@@ -1237,11 +1237,11 @@ Does CNE benefit disproportionately from increasing context?
 
 ---
 
-# STAGE 14 — Order-Aware CNE-v2
+# STAGE 14  --  Order-Aware CNE-v2
 
 ## Important Gate
 
-Do not start this stage until Stages 0–13 are complete enough to justify architectural modification.
+Do not start this stage until Stages 0-13 are complete enough to justify architectural modification.
 
 ## Objective
 
@@ -1272,7 +1272,7 @@ Do not build an excessively large model.
 
 The purpose is to test ordering, not win by parameter count.
 
-## Experiment 14A — Ordered vs Shuffled
+## Experiment 14A  --  Ordered vs Shuffled
 
 Original:
 
@@ -1283,7 +1283,7 @@ v1 v2 v3 ... vN
 Shuffled:
 
 ```text
-vπ(1) vπ(2) ... vπ(N)
+vpi(1) vpi(2) ... vpi(N)
 ```
 
 Evaluate whether order-aware CNE performance degrades under shuffling.
@@ -1292,13 +1292,13 @@ Evaluate whether order-aware CNE performance degrades under shuffling.
 
 ```text
 artifacts/stage14_cnev2/
-├── cnev2_architectures.md
-├── ordered_results.csv
-├── shuffled_results.csv
-├── order_sensitivity.csv
-├── parameter_counts.csv
-├── checkpoints/
-└── README.md
+|--  cnev2_architectures.md
+|--  ordered_results.csv
+|--  shuffled_results.csv
+|--  order_sensitivity.csv
+|--  parameter_counts.csv
+|--  checkpoints/
+\--  README.md
 ```
 
 ## Decision Rule
@@ -1319,7 +1319,7 @@ Do not force CNE-v2 into the paper if the evidence does not justify it.
 
 ---
 
-# STAGE 15 — Fixed-Time vs Musical Segmentation
+# STAGE 15  --  Fixed-Time vs Musical Segmentation
 
 ## Objective
 
@@ -1347,11 +1347,11 @@ Use the same downstream structural model.
 
 ```text
 artifacts/stage15_segmentation/
-├── segmentation_results.csv
-├── segmentation_cost.csv
-├── segmentation_failure_cases.md
-├── segmentation_comparison.pdf
-└── README.md
+|--  segmentation_results.csv
+|--  segmentation_cost.csv
+|--  segmentation_failure_cases.md
+|--  segmentation_comparison.pdf
+\--  README.md
 ```
 
 ## Decision
@@ -1365,7 +1365,7 @@ Select segmentation based on:
 
 ---
 
-# STAGE 16 — Human Genre and Edge-Case Study
+# STAGE 16  --  Human Genre and Edge-Case Study
 
 ## Objective
 
@@ -1413,16 +1413,16 @@ Do not use genre conditioning in the final system unless it clearly improves gen
 
 ```text
 artifacts/stage16_human_edges/
-├── genre_fpr.csv
-├── false_positive_catalog.csv
-├── false_positive_feature_analysis.csv
-├── genre_conditioning_results.csv
-└── README.md
+|--  genre_fpr.csv
+|--  false_positive_catalog.csv
+|--  false_positive_feature_analysis.csv
+|--  genre_conditioning_results.csv
+\--  README.md
 ```
 
 ---
 
-# STAGE 17 — Hybrid Provenance and Mubert Study
+# STAGE 17  --  Hybrid Provenance and Mubert Study
 
 ## Objective
 
@@ -1437,7 +1437,7 @@ Algorithmic assembly
 Hybrid / AI-assisted
 ```
 
-## Experiment 17A — Mubert
+## Experiment 17A  --  Mubert
 
 Treat Mubert explicitly as a separate provenance mechanism.
 
@@ -1448,7 +1448,7 @@ Analyze:
 - fused scores;
 - structural feature distributions.
 
-## Experiment 17B — Controlled Assembly
+## Experiment 17B  --  Controlled Assembly
 
 Create synthetic assembly controls using real human sections/stems:
 
@@ -1460,7 +1460,7 @@ human sections
 
 This isolates machine-level organization from neural synthesis artifacts.
 
-## Experiment 17C — Synthetic-Fraction Sweep
+## Experiment 17C  --  Synthetic-Fraction Sweep
 
 Where technically and scientifically valid, construct:
 
@@ -1480,11 +1480,11 @@ Measure model score against synthetic fraction.
 
 ```text
 artifacts/stage17_hybrid/
-├── mubert_analysis.csv
-├── assembly_control_results.csv
-├── synthetic_fraction_results.csv
-├── provenance_taxonomy.md
-└── README.md
+|--  mubert_analysis.csv
+|--  assembly_control_results.csv
+|--  synthetic_fraction_results.csv
+|--  provenance_taxonomy.md
+\--  README.md
 ```
 
 ## Required Outcome
@@ -1495,7 +1495,7 @@ Do not describe all algorithmically produced music as equivalent to neural synth
 
 ---
 
-# STAGE 18 — Label-Noise Robustness
+# STAGE 18  --  Label-Noise Robustness
 
 ## Optional / Conditional Stage
 
@@ -1523,9 +1523,9 @@ Compare:
 
 ```text
 artifacts/stage18_label_noise/
-├── label_noise_results.csv
-├── label_noise_curves.pdf
-└── README.md
+|--  label_noise_results.csv
+|--  label_noise_curves.pdf
+\--  README.md
 ```
 
 ## Decision
@@ -1536,11 +1536,11 @@ If robustness is weak:
 remove strong label-noise-immunity claims
 ```
 
-Do not retain the phrase “mathematical immunity.”
+Do not retain the phrase "mathematical immunity."
 
 ---
 
-# STAGE 19 — Calibration Under Domain Shift
+# STAGE 19  --  Calibration Under Domain Shift
 
 ## Objective
 
@@ -1586,16 +1586,16 @@ Evaluate on:
 
 ```text
 artifacts/stage19_calibration/
-├── calibration_results.csv
-├── ood_calibration.csv
-├── reliability_diagrams/
-├── selected_calibration_method.md
-└── README.md
+|--  calibration_results.csv
+|--  ood_calibration.csv
+|--  reliability_diagrams/
+|--  selected_calibration_method.md
+\--  README.md
 ```
 
 ---
 
-# STAGE 20 — Efficiency and Deployment Cost
+# STAGE 20  --  Efficiency and Deployment Cost
 
 ## Objective
 
@@ -1632,16 +1632,16 @@ Use the same hardware and batch conditions.
 
 ```text
 artifacts/stage20_efficiency/
-├── efficiency_results.csv
-├── hardware_spec.md
-├── latency_distribution.csv
-├── accuracy_compute_tradeoff.pdf
-└── README.md
+|--  efficiency_results.csv
+|--  hardware_spec.md
+|--  latency_distribution.csv
+|--  accuracy_compute_tradeoff.pdf
+\--  README.md
 ```
 
 ---
 
-# STAGE 21 — Final Statistical Consolidation
+# STAGE 21  --  Final Statistical Consolidation
 
 ## Objective
 
@@ -1661,19 +1661,19 @@ Produce one canonical set of paper-ready numbers from all experiments.
 
 ```text
 artifacts/stage21_statistics/
-├── final_metrics.parquet
-├── final_metrics.csv
-├── bootstrap_ci.csv
-├── seed_statistics.csv
-├── final_per_generator.csv
-├── final_per_dataset.csv
-├── final_per_perturbation.csv
-└── README.md
+|--  final_metrics.parquet
+|--  final_metrics.csv
+|--  bootstrap_ci.csv
+|--  seed_statistics.csv
+|--  final_per_generator.csv
+|--  final_per_dataset.csv
+|--  final_per_perturbation.csv
+\--  README.md
 ```
 
 ---
 
-# STAGE 22 — Final Figure and Table Package
+# STAGE 22  --  Final Figure and Table Package
 
 ## Objective
 
@@ -1726,12 +1726,12 @@ Efficiency comparison.
 
 ```text
 artifacts/stage22_paper_package/
-├── figures/
-├── tables/
-├── captions.md
-├── figure_source_data/
-├── table_source_data/
-└── README.md
+|--  figures/
+|--  tables/
+|--  captions.md
+|--  figure_source_data/
+|--  table_source_data/
+\--  README.md
 ```
 
 Every figure/table must have machine-readable source data.
@@ -1740,7 +1740,7 @@ Every figure/table must have machine-readable source data.
 
 # 5. Mandatory vs Optional Priority
 
-## Tier A — Mandatory for the Transactions Paper
+## Tier A  --  Mandatory for the Transactions Paper
 
 Do not skip:
 
@@ -1763,7 +1763,7 @@ Stage 21  Statistics
 Stage 22  Paper package
 ```
 
-## Tier B — High-Value Extension
+## Tier B  --  High-Value Extension
 
 Run if resources permit:
 
@@ -1776,7 +1776,7 @@ Stage 17  Hybrid provenance/Mubert
 Stage 19  OOD calibration
 ```
 
-## Tier C — Conditional
+## Tier C  --  Conditional
 
 Only if the corresponding claim is retained:
 
@@ -1788,7 +1788,7 @@ Stage 18  Label-noise study
 
 # 6. Decision Gates
 
-## Gate A — After Shortcut Audit
+## Gate A  --  After Shortcut Audit
 
 If performance collapses after canonical transcoding or metadata-only classification is highly predictive:
 
@@ -1798,11 +1798,11 @@ repair dataset construction
 repeat Stage 2
 ```
 
-## Gate B — After LOGO
+## Gate B  --  After LOGO
 
 If CNE does not generalize better or differently than ATE:
 
-Do not force the current “structural invariance” narrative.
+Do not force the current "structural invariance" narrative.
 
 Instead investigate:
 
@@ -1811,11 +1811,11 @@ Instead investigate:
 - whether temporal ordering is missing;
 - whether genre confounding is responsible.
 
-## Gate C — After Controlled Interventions
+## Gate C  --  After Controlled Interventions
 
 If CNE does not respond selectively to structural manipulation:
 
-Do not call it a strong “musical narrative” representation.
+Do not call it a strong "musical narrative" representation.
 
 Reframe it as:
 
@@ -1825,7 +1825,7 @@ interpretable MIR statistical representation
 
 and consider CNE-v2.
 
-## Gate D — Before CNE-v2
+## Gate D  --  Before CNE-v2
 
 Only build CNE-v2 after determining exactly what is missing from CNE-v1.
 
@@ -1856,7 +1856,7 @@ The project should be considered Transactions-ready only if most of the followin
 
 Do not write the final paper as:
 
-> “We propose another binary AI-music classifier.”
+> "We propose another binary AI-music classifier."
 
 The intended narrative is:
 
@@ -1896,14 +1896,14 @@ Expected milestone deliverables:
 
 ```text
 milestones/M1/
-├── canonical_manifest.parquet
-├── generator_registry.csv
-├── split_registry.csv
-├── provenance_issues.md
-├── musicscope_v1_reproduction.csv
-├── per_generator_results.csv
-├── reproduction_report.md
-└── NEXT_ACTIONS.md
+|--  canonical_manifest.parquet
+|--  generator_registry.csv
+|--  split_registry.csv
+|--  provenance_issues.md
+|--  musicscope_v1_reproduction.csv
+|--  per_generator_results.csv
+|--  reproduction_report.md
+\--  NEXT_ACTIONS.md
 ```
 
 `NEXT_ACTIONS.md` must explicitly state whether the original evidence survives audit and reproduction before Stage 3 begins.
