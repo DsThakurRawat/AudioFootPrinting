@@ -1,0 +1,14 @@
+{
+  "captured_utc": "2026-10-01T08:40:06.830581+00:00",
+  "git_commit": "277e7454dbbece0c2addedd0b36d84514ce0686a",
+  "git_branch": "test/musicscope",
+  "git_remote": "https://github.com/DsThakurRawat/mirex.git",
+  "code_files": 53,
+  "checkpoints": 20,
+  "datasets": 8,
+  "total_files": 216187,
+  "total_bytes": 269259219276,
+  "metadata_db_exists": true,
+  "split_parquet_exists": true,
+  "note": "MusicScope-v1 frozen state; no pipeline code was modified."
+}

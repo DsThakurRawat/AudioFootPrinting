@@ -160,7 +160,7 @@ python -m venv .venv312
 
 # Install PyTorch with CUDA acceleration and requirements
 pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124
-pip install -r Architecture-1/mirex/requirement.txt
+pip install -r Architecture-1/model/requirement.txt
 ```
 
 ---
@@ -170,11 +170,11 @@ pip install -r Architecture-1/mirex/requirement.txt
 Supports .mp3, .wav, .flac, and .ogg:
 
 ```powershell
-python Architecture-1/mirex/inference.py `
+python Architecture-1/model/inference.py `
   --input "path/to/song.mp3" `
-  --simclr_ckpt "Architecture-1/mirex/checkpoints/simclr_200k_best.pt" `
-  --supcon_ckpt "Architecture-1/mirex/checkpoints/supcon_200k_best.pt" `
-  --fusion_ckpt "Architecture-1/mirex/checkpoints/fusion_200k_best.pt"
+  --simclr_ckpt "Architecture-1/model/checkpoints/simclr_200k_best.pt" `
+  --supcon_ckpt "Architecture-1/model/checkpoints/supcon_200k_best.pt" `
+  --fusion_ckpt "Architecture-1/model/checkpoints/fusion_200k_best.pt"
 ```
 
 Example Output:
@@ -192,12 +192,12 @@ Example Output:
 Score an entire folder of evaluation tracks and generate the official submission CSV:
 
 ```powershell
-python Architecture-1/mirex/inference.py `
+python Architecture-1/model/inference.py `
   --input_dir "path/to/evaluation_tracks" `
   --output_csv "mirex_submission_scores.csv" `
-  --simclr_ckpt "Architecture-1/mirex/checkpoints/simclr_200k_best.pt" `
-  --supcon_ckpt "Architecture-1/mirex/checkpoints/supcon_200k_best.pt" `
-  --fusion_ckpt "Architecture-1/mirex/checkpoints/fusion_200k_best.pt"
+  --simclr_ckpt "Architecture-1/model/checkpoints/simclr_200k_best.pt" `
+  --supcon_ckpt "Architecture-1/model/checkpoints/supcon_200k_best.pt" `
+  --fusion_ckpt "Architecture-1/model/checkpoints/fusion_200k_best.pt"
 ```
 
 ---
@@ -207,7 +207,7 @@ python Architecture-1/mirex/inference.py `
 Runs an automated evaluation across held-out Human and AI tracks and prints a scorecard:
 
 ```powershell
-python Architecture-1/mirex/evaluate_test_set.py
+python Architecture-1/scripts/evaluate_test_set.py
 ```
 
 ---
@@ -217,7 +217,7 @@ python Architecture-1/mirex/evaluate_test_set.py
 To reproduce the four training stages from scratch:
 
 ```powershell
-cd Architecture-1/mirex
+cd Architecture-1/model
 
 # Stage 1: SimCLR Unsupervised Pretraining (Branch A)
 python train_simclr.py --input_dir "D:\mirex\data\raw" --epochs 20 --num_workers 4

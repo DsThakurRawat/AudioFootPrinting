@@ -227,7 +227,7 @@ Beating one branch is plausible for a generator. Beating both simultaneously, wi
 ##  Repo Structure
 
 ```
-Architecture-1/mirex/
+Architecture-1/model/
 ├── README.md                  # this file
 ├── arch.md                    # deep-dive on design decisions
 ├── requirement.txt            # dependencies
@@ -252,7 +252,7 @@ Architecture-1/mirex/
 
 ```bash
 git clone https://github.com/DsThakurRawat/mirex.git
-cd mirex/Architecture-1/mirex
+cd mirex/Architecture-1/model
 pip install -r requirement.txt
 
 # Stage 2: extract structural features (no training needed)

@@ -26,10 +26,10 @@ if sys.platform == "win32":
     except Exception:
         pass
 
-# Add Architecture-1/mirex to sys.path
-_MIREX_DIR = Path(__file__).resolve().parent.parent / "mirex"
-if str(_MIREX_DIR) not in sys.path:
-    sys.path.insert(0, str(_MIREX_DIR))
+# Add Architecture-1/model to sys.path
+_MODEL_DIR = Path(__file__).resolve().parent.parent / "model"
+if str(_MODEL_DIR) not in sys.path:
+    sys.path.insert(0, str(_MODEL_DIR))
 
 import config
 from track_a_narrative import (

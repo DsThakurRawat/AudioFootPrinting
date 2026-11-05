@@ -1,0 +1,7 @@
+finding,severity
+"exact duplicate sha256 groups: 560 covering 1,222 rows; 359 rows appear in both train and val",
+"near-duplicate (same duration+size, differing hash) groups: 13,398; 127,799 rows cross train/val",
+artists present in both human and synthetic classes: 0 (covering 0 files) - artist identity is a potential shortcut feature,
+prompts reused across >=2 files: 0; 0 rows cross train/val,
+"generators appearing in BOTH train and val: 20 -> ['acestep', 'audioldm', 'brev', 'diffrhythm', 'elevenlabs', 'mubert', 'musicgen', 'producer', 'songgen', 'stableaudio', 'suno', 'udio', 'audioldm', 'musicgen', 'musicldm', 'mustango', 'stableaudio', 'human', 'suno', 'udio']",
+"metadata-only classifier reaches AUROC 0.9944 / accuracy 0.9816 using ONLY header fields (sample rate, codec, channels, duration, size)",

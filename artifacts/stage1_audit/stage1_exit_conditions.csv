@@ -1,0 +1,5 @@
+exit_condition,verdict,evidence,remedy
+every evaluated file has known provenance,FAIL,"221,846 manifest rows; 187,557 audio; 6,500 AIME rows were never extracted; generator_version unrecorded for Echoes/FMC/FMA; pretraining+calibration membership unknown for all rows",extract AIME; backfill version fields; record pretraining/calibration sets
+exact duplicates across train/test are zero,FAIL,560 exact-duplicate sha256 groups; 359 rows appear in BOTH train and val,"de-duplicate by sha256 across the split boundary, then re-split"
+ambiguous generator labels are resolved,FAIL,"FMC 'udio' (11,042 files) is MusicLDM + Stable Audio; Echoes (4,466 train rows) is 12 generators collapsed into one label; AIME labels AudioLDM2/StableAudio as 'udio'",apply resolved_label_changes.csv and adopt path-derived identity
+'unseen generator' claims can be stated precisely,FAIL,all 8 claimed-unseen generators are present in the train split; the Phase-1 zero-shot set is drawn from the Echoes collection that is itself in train,withdraw the Phase-1 zero-shot claim; build a genuinely held-out generator set

@@ -15,7 +15,7 @@ from tqdm import tqdm
 
 _SCRIPTS_DIR = Path(__file__).resolve().parent
 _ARCH1_DIR = _SCRIPTS_DIR.parent
-_MIREX_DIR = _ARCH1_DIR / "mirex"
+_MIREX_DIR = _ARCH1_DIR / "model"
 
 for p in (str(_SCRIPTS_DIR), str(_MIREX_DIR)):
     if p not in sys.path:
@@ -26,10 +26,13 @@ from new_inference import FastMusicScopeScorer
 from evaluate_val_28k import generate_publication_scorecard
 
 
+_DEFAULT_RESULTS_CSV = _ARCH1_DIR.parent / "buggy_results" / "eval_28k_results.csv"
+_DEFAULT_OUTPUT_PNG = _ARCH1_DIR.parent / "buggy_results" / "eval_28k_analysis.png"
+
 def patch_eval_28k(
-    results_csv: Path = _SCRIPTS_DIR.parent / "results" / "buggy_earlier_runs" / "eval_28k_results.csv",
+    results_csv: Path = _DEFAULT_RESULTS_CSV,
     ckpt_parquet: Path = config.PROCESSED_DATA_DIR / "eval_28k_checkpoint.parquet",
-    output_png: Path = _SCRIPTS_DIR.parent / "results" / "buggy_earlier_runs" / "eval_28k_analysis.png",
+    output_png: Path = _DEFAULT_OUTPUT_PNG,
     batch_size: int = 64,
     workers: int = 12,
     chunk_size: int = 512,
@@ -88,6 +91,8 @@ def patch_eval_28k(
     print("=" * 80)
 
     # Save finalized files
+    results_csv.parent.mkdir(parents=True, exist_ok=True)
+    output_png.parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(ckpt_parquet, index=False)
     df.to_csv(results_csv, index=False)
     print(f"Saved finalized dataset to:\n  - {ckpt_parquet}\n  - {results_csv}")
@@ -99,4 +104,20 @@ def patch_eval_28k(
 
 
 if __name__ == "__main__":
-    patch_eval_28k()
+    import argparse
+    parser = argparse.ArgumentParser(description="Patch and finalize the 28k validation set evaluation")
+    parser.add_argument("--results-csv", type=Path, default=_DEFAULT_RESULTS_CSV, help="Output CSV path")
+    parser.add_argument("--ckpt-parquet", type=Path, default=config.PROCESSED_DATA_DIR / "eval_28k_checkpoint.parquet", help="Checkpoint parquet")
+    parser.add_argument("--output-png", type=Path, default=_DEFAULT_OUTPUT_PNG, help="Output PNG path")
+    parser.add_argument("--batch-size", type=int, default=64, help="Batch size")
+    parser.add_argument("--workers", type=int, default=12, help="Number of worker threads")
+    parser.add_argument("--chunk-size", type=int, default=512, help="Chunk size for saving checkpoints")
+    args = parser.parse_args()
+    patch_eval_28k(
+        results_csv=args.results_csv,
+        ckpt_parquet=args.ckpt_parquet,
+        output_png=args.output_png,
+        batch_size=args.batch_size,
+        workers=args.workers,
+        chunk_size=args.chunk_size,
+    )

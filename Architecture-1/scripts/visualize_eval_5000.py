@@ -33,7 +33,7 @@ csv_path = Path(__file__).resolve().parent.parent / "results" / "old_model_5k_ba
 if not csv_path.exists():
     csv_path = Path(__file__).resolve().parent / "eval_5000_results.csv"
 if not csv_path.exists():
-    csv_path = Path(__file__).resolve().parent.parent / "mirex" / "eval_5000_results.csv"
+    csv_path = Path(__file__).resolve().parent.parent / "model" / "eval_5000_results.csv"
 df = pd.read_csv(str(csv_path))
 
 print("=" * 60)

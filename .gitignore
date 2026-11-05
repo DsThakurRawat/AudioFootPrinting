@@ -16,4 +16,8 @@ checkpoints/
 .DS_Store
 .agents/
 .gemini/
+**/_cache/
+artifacts/**/canonical_manifest.csv
+artifacts/**/canonical_manifest.tsv
+artifacts/**/path_identity.csv
 

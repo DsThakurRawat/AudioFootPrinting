@@ -5,7 +5,7 @@ import sys
 import time
 from pathlib import Path
 
-_CUR_DIR = Path("Architecture-1/mirex").resolve()
+_CUR_DIR = Path("Architecture-1/model").resolve()
 sys.path.insert(0, str(_CUR_DIR))
 
 import config

@@ -1,0 +1,2 @@
+features,n_samples,metadata_only_cv_accuracy_mean,metadata_only_cv_accuracy_std,metadata_only_cv_auroc_mean,note
+"original_sample_rate,channels,duration_s,size_bytes,original_codec",187557,0.9816,0.0356,0.9944,5-fold CV on header metadata only; no audio used

@@ -140,5 +140,5 @@ All primary data, prediction CSVs, and high-resolution publication charts are co
 * [`narrative_rarity_musicscope.png`](./narrative_rarity_musicscope.png) — Narrative Rarity Violin Plot
 
 Model checkpoints:
-* `Architecture-1/mirex/checkpoints/supcon_200k_best.pt` — Trained SupCon Weights
-* `Architecture-1/mirex/checkpoints/fusion_200k_best.pt` — Calibrated Fusion Weights
+* `Architecture-1/model/checkpoints/supcon_200k_best.pt` — Trained SupCon Weights
+* `Architecture-1/model/checkpoints/fusion_200k_best.pt` — Calibrated Fusion Weights

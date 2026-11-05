@@ -16,7 +16,7 @@ from pathlib import Path
 
 # Add scripts and mirex to sys.path
 _SCRIPTS_DIR = Path(__file__).resolve().parent
-_MIREX_DIR = _SCRIPTS_DIR.parent / "mirex"
+_MIREX_DIR = _SCRIPTS_DIR.parent / "model"
 for p in (str(_SCRIPTS_DIR), str(_MIREX_DIR)):
     if p not in sys.path:
         sys.path.insert(0, p)
@@ -87,7 +87,7 @@ def main():
 
     print("\n" + "=" * 75)
     print("   [PIPELINE SUCCESS] 200,000+ Track Training Completed Successfully!")
-    print("   New Checkpoints Ready in: Architecture-1/mirex/checkpoints/")
+    print("   New Checkpoints Ready in: Architecture-1/model/checkpoints/")
     print("=" * 75)
 
 

@@ -1,0 +1,12 @@
+{
+  "venvPath": ".",
+  "venv": ".venv312",
+  "extraPaths": [
+    "Architecture-1/model",
+    "Architecture-1/scripts"
+  ],
+  "include": [
+    "Architecture-1"
+  ],
+  "reportMissingImports": "warning"
+}

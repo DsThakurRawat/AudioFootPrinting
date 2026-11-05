@@ -12,8 +12,9 @@ import sqlite3
 from pathlib import Path
 import numpy as np
 import pandas as pd
+from sklearn.model_selection import train_test_split
 import sys
-_MIREX_DIR = Path(__file__).resolve().parent.parent / "mirex"
+_MIREX_DIR = Path(__file__).resolve().parent.parent / "model"
 if str(_MIREX_DIR) not in sys.path:
     sys.path.insert(0, str(_MIREX_DIR))
 
@@ -117,4 +118,7 @@ def main():
 
 
 if __name__ == "__main__":
+    import argparse
+    parser = argparse.ArgumentParser(description="Stratified Dataset Splitter for 200,000+ Tracks (MusicScope-CL)")
+    parser.parse_args()
     main()

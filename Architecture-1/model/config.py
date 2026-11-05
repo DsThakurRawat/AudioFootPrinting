@@ -8,7 +8,7 @@ from pathlib import Path
 
 # --- Directory structure --------------------------------------------------
 PROJECT_ROOT = Path(__file__).resolve().parent
-# Shared data lives at the mirex root (two levels up from Architecture-1/mirex/)
+# Shared data lives at the mirex root (two levels up from Architecture-1/model/)
 _MIREX_ROOT = PROJECT_ROOT.parent.parent
 DATA_DIR = Path(os.environ.get("MIREX_DATA_DIR", _MIREX_ROOT / "data"))
 

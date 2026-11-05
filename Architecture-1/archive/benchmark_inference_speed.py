@@ -16,7 +16,7 @@ import torch
 import torch.nn as nn
 import torchaudio
 
-_CUR_DIR = Path(__file__).resolve().parent.parent / "mirex"
+_CUR_DIR = Path(__file__).resolve().parent.parent / "model"
 if str(_CUR_DIR) not in sys.path:
     sys.path.insert(0, str(_CUR_DIR))
 

@@ -15,6 +15,7 @@ Usage:
                            --simclr_ckpt checkpoints/simclr_best.pt
 """
 import argparse
+import random
 import time
 from pathlib import Path
 

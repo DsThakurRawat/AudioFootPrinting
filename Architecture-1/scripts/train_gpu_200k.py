@@ -25,7 +25,7 @@ from torch.utils.data import Dataset, DataLoader
 from sklearn.metrics import roc_auc_score, accuracy_score
 
 # Link to mirex package
-_MIREX_DIR = Path(__file__).resolve().parent.parent / "mirex"
+_MIREX_DIR = Path(__file__).resolve().parent.parent / "model"
 if str(_MIREX_DIR) not in sys.path:
     sys.path.insert(0, str(_MIREX_DIR))
 

@@ -27,7 +27,7 @@ import pandas as pd
 from sklearn.metrics import roc_auc_score, accuracy_score, f1_score, precision_score, recall_score
 
 _SCRIPTS_DIR = Path(__file__).resolve().parent
-_MIREX_DIR = _SCRIPTS_DIR.parent / "mirex"
+_MIREX_DIR = _SCRIPTS_DIR.parent / "model"
 for p in (str(_SCRIPTS_DIR), str(_MIREX_DIR)):
     if p not in sys.path:
         sys.path.insert(0, p)

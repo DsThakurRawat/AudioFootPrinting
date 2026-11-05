@@ -1,0 +1,33 @@
+captured_utc: 2026-10-01T08:39:54.993558+00:00
+python: 3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]
+executable: D:\mirex\.venv312\Scripts\python.exe
+platform: Windows-11-10.0.26200-SP0
+machine: AMD64
+processor: Intel64 Family 6 Model 183 Stepping 1, GenuineIntel
+cpu_count: 32
+git_commit: 277e7454dbbece0c2addedd0b36d84514ce0686a
+git_branch: test/musicscope
+git_status_dirty_lines: 2
+git_remote: https://github.com/DsThakurRawat/mirex.git
+
+[packages]
+torch = 2.6.0+cu124
+torchaudio = 2.6.0+cu124
+librosa = 1.0.0
+numpy = 2.5.2
+scipy = 1.18.1
+sklearn = 1.9.1
+pandas = 3.0.5
+soundfile = 0.14.0
+soxr = 1.1.0
+mutagen = NOT INSTALLED
+pyloudnorm = NOT INSTALLED
+chromaprint = NOT INSTALLED
+pyacoustid = NOT INSTALLED
+
+[gpu]
+cuda_available: True
+cuda_version: 12.4
+cudnn_version: 90100
+gpu_count: 1
+gpu_0: NVIDIA RTX 2000 Ada Generation (16379 MiB)

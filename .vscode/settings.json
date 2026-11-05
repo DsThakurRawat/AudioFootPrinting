@@ -1,0 +1,21 @@
+{
+  "python.defaultInterpreterPath": "${workspaceFolder}/.venv312/Scripts/python.exe",
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/Architecture-1/model",
+    "${workspaceFolder}/Architecture-1/scripts"
+  ],
+  "python.autoComplete.extraPaths": [
+    "${workspaceFolder}/Architecture-1/model",
+    "${workspaceFolder}/Architecture-1/scripts"
+  ],
+  "python.analysis.typeCheckingMode": "basic",
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/__pycache__": true
+  }
+}

@@ -36,7 +36,7 @@ import torch
 from huggingface_hub import HfApi, hf_hub_download
 
 _SCRIPTS_DIR = Path(__file__).resolve().parent
-_MIREX_DIR = _SCRIPTS_DIR.parent / "mirex"
+_MIREX_DIR = _SCRIPTS_DIR.parent / "model"
 for p in (str(_SCRIPTS_DIR), str(_MIREX_DIR)):
     if p not in sys.path:
         sys.path.insert(0, p)
